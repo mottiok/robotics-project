@@ -11,7 +11,7 @@ using namespace std;
 
 #include "Robot.h"
 #include "Manager.h"
-#include "ObstacleAvoidancePlan.h"
+#include "Plans/ObstacleAvoidancePlan.h"
 
 int main() {
 

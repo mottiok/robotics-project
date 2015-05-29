@@ -8,8 +8,8 @@
 #ifndef PLAN_H_
 #define PLAN_H_
 
-#include "Robot.h"
-#include "Behavior.h"
+#include "../Robot.h"
+#include "../Behaviors/Behavior.h"
 
 class Plan {
 protected:

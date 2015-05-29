@@ -9,8 +9,8 @@
 #define MANAGER_H_
 
 #include "Robot.h"
-#include "Behavior.h"
-#include "Plan.h"
+#include "Behaviors/Behavior.h"
+#include "Plans/Plan.h"
 
 class Manager {
 	Robot* _robot;

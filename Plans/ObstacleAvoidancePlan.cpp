@@ -6,9 +6,9 @@
  */
 
 #include "ObstacleAvoidancePlan.h"
-#include "GoForward.h"
-#include "TurnRight.h"
-#include "TurnLeft.h"
+#include "../Behaviors/GoForward.h"
+#include "../Behaviors/TurnRight.h"
+#include "../Behaviors/TurnLeft.h"
 
 ObstacleAvoidancePlan::ObstacleAvoidancePlan(Robot* robot):Plan(robot) {
 	GoForward* forward = new GoForward(robot);

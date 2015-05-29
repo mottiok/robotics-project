@@ -8,7 +8,7 @@
 #ifndef BEHAVIOR_H_
 #define BEHAVIOR_H_
 
-#include "Robot.h"
+#include "../Robot.h"
 #include <vector>
 using namespace std;
 
