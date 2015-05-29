@@ -26,6 +26,14 @@ public:
 		_pp->SetSpeed(aXSpeed, aYawSpeed);
 	}
 
+	bool IsForwardFree() {
+		if (((*_lp)[332]) > 0.5) {
+			return true;
+		}
+
+		return false;
+	}
+
 	virtual ~Robot();
 };
 
