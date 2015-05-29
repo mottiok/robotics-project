@@ -19,7 +19,7 @@ protected:
 public:
 	Behavior(Robot* robot);
 	virtual bool StartCondition() = 0;
-	virtual bool EndCondition() = 0;
+	virtual bool StopCondition() = 0;
 	virtual void Action() = 0;
 
 	void AddBehavior(Behavior* nextBehavior) {
@@ -33,8 +33,7 @@ public:
 			}
 		}
 
-		// TODO: Do something if all the behaviors return false - maybe return 'this'?
-		return this; // Not the best solution - possible infinite loop
+		return NULL;
 	}
 
 	virtual ~Behavior();

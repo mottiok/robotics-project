@@ -18,8 +18,8 @@ public:
 		return _robot->IsForwardFree();
 	}
 
-	bool EndCondition() {
-		return _robot->IsForwardFree();
+	bool StopCondition() {
+		return !_robot->IsForwardFree();
 	}
 
 	void Action() {

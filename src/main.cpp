@@ -11,11 +11,13 @@ using namespace std;
 
 #include "Robot.h"
 #include "Manager.h"
+#include "ObstacleAvoidancePlan.h"
 
 int main() {
 
 	Robot robot("localhost", 6665);
-	Manager manager(&robot);
+	ObstacleAvoidancePlan plan(&robot);
+	Manager manager(&robot, &plan);
 	manager.Run();
 
 	return 0;

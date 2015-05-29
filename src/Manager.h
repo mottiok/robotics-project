@@ -10,11 +10,14 @@
 
 #include "Robot.h"
 #include "Behavior.h"
+#include "Plan.h"
 
 class Manager {
 	Robot* _robot;
+	Plan* _plan;
+	Behavior* _currentBehavior;
 public:
-	Manager(Robot* robot);
+	Manager(Robot* robot, Plan* plan);
 	void Run();
 	virtual ~Manager();
 };
