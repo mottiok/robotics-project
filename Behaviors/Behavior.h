@@ -27,9 +27,9 @@ public:
 	}
 
 	Behavior* NextBehavior() {
-		for(vector<Behavior*>::iterator it = _behaviors.begin(); it != _behaviors.end(); ++it) {
-			if ((*it)->StartCondition()) {
-				return *it;
+		for(size_t i = 0; i < _behaviors.size(); i++) {
+			if (_behaviors[i]->StartCondition()) {
+				return _behaviors[i];
 			}
 		}
 

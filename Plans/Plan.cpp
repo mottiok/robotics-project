@@ -12,8 +12,6 @@ Plan::Plan(Robot* robot) {
 }
 
 Plan::~Plan() {
-	for (size_t i = 0; i < _behaviors.size(); i++) {
-		delete _behaviors[i];
-	}
+	// TODO Auto-generated destructor stub
 }
 

@@ -29,6 +29,8 @@ ObstacleAvoidancePlan::ObstacleAvoidancePlan(Robot* robot):Plan(robot) {
 }
 
 ObstacleAvoidancePlan::~ObstacleAvoidancePlan() {
-	// TODO Auto-generated destructor stub
+	for (size_t i = 0; i < _behaviors.size(); i++) {
+		delete _behaviors[i];
+	}
 }
 

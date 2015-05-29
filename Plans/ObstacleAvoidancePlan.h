@@ -11,6 +11,7 @@
 #include "Plan.h"
 
 class ObstacleAvoidancePlan: public Plan {
+	vector<Behavior*> _behaviors;
 public:
 	ObstacleAvoidancePlan(Robot* robot);
 	virtual ~ObstacleAvoidancePlan();

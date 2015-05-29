@@ -14,7 +14,6 @@
 class Plan {
 protected:
 	Behavior* _startPointBehavior;
-	vector<Behavior*> _behaviors;
 public:
 	Plan(Robot* robot);
 	Behavior* StartPointBehavior() { return _startPointBehavior; }
