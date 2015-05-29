@@ -11,13 +11,15 @@
 #include "Robot.h"
 #include "Behaviors/Behavior.h"
 #include "Plans/Plan.h"
+#include "Map.h"
 
 class Manager {
 	Robot* _robot;
 	Plan* _plan;
 	Behavior* _currentBehavior;
+	Map* _map;
 public:
-	Manager(Robot* robot, Plan* plan);
+	Manager(Robot* robot, Plan* plan, Map* map);
 	void Run();
 	virtual ~Manager();
 };

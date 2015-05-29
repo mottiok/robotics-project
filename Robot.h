@@ -50,6 +50,14 @@ public:
 		return false;
 	}
 
+	double GetXPos() {
+		return _pp->GetXPos();
+	}
+
+	double GetYPos() {
+		return _pp->GetYPos();
+	}
+
 	virtual ~Robot();
 };
 
