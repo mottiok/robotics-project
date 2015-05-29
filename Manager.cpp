@@ -27,8 +27,7 @@ void Manager::Run() {
 		while (!_currentBehavior->StopCondition()) {
 			_currentBehavior->Action();
 			_robot->Read();
-			// TODO: The current X,Y of the robot is relative to the start position - can't continue until I'll have particles and actual grid
-			//_map->DrawPoint(_robot->GetXPos(), _robot->GetYPos(), 0, 0, 0, true);
+			_map->Update();
 		}
 
 		_currentBehavior = _currentBehavior->NextBehavior();

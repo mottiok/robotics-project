@@ -7,6 +7,9 @@
 
 #include "Map.h"
 
+#define EMPTY 0
+#define OCCUPIED 1
+
 Map::Map(Robot* robot, const char* filename) {
 	_robot = robot;
 	LoadMap(filename);
@@ -26,7 +29,6 @@ void Map::LoadMap(const char* filename) {
 
 	_map = new int[width*height];
 
-	vector<Object> objects;
 	unsigned x, y;
 
 	for (y = 0; y < height; y++) {
@@ -36,10 +38,9 @@ void Map::LoadMap(const char* filename) {
 					|| image[y * width * 4 + x * 4 + 2]) {
 				// This is true when the color isn't black (any color)
 				// Do Nothing... (For Now)
-				_map[y * width + x] = 0;
+				_map[y * width + x] = EMPTY;
 			} else {
-				//objects.push_back(Object(x, y));
-				_map[y * width + x] = 1;
+				_map[y * width + x] = OCCUPIED;
 			}
 		}
 	}
@@ -58,8 +59,8 @@ void Map::LoadMap(const char* filename) {
 	// Render the objects in black
 	for (y = 0; y < height; y++) {
 		for (x = 0; x < width; x++) {
-			if (_map[y * width + x] != 0) {
-				DrawPoint(x, y, 0, 0, 0, false);
+			if (_map[y * width + x] == OCCUPIED) {
+				DrawBlackPoint(x, y, false);
 			}
 		}
 	}
@@ -74,8 +75,19 @@ void Map::DrawPoint(int x, int y, Uint8 r, Uint8 g, Uint8 b, bool render) {
 
 	if (render) {
 		SDL_RenderPresent(_renderer);
-		SDL_Delay(10);
 	}
+}
+
+void Map::DrawBlackPoint(int x, int y, bool render) {
+	DrawPoint(x, y, 0, 0, 0, render);
+}
+
+void Map::Update() {
+	SDL_Event event;
+	SDL_PollEvent(&event);
+	DrawBlackPoint(rand() % 200, rand() % 200, true);
+	// TODO: The current X,Y of the robot is relative to the start position - can't continue until I'll have particles and actual grid
+	// DrawPoint(_robot->GetXPos(), _robot->GetYPos(), 0, 0, 0, true);
 }
 
 Map::~Map() {

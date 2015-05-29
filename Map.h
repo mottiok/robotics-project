@@ -23,6 +23,8 @@ class Map {
 public:
 	Map(Robot* robot, const char* filename);
 	void DrawPoint(int x, int y, Uint8 r, Uint8 g, Uint8 b, bool render);
+	void DrawBlackPoint(int x, int y, bool render);
+	void Update();
 	virtual ~Map();
 private:
 	void LoadMap(const char* filename);
