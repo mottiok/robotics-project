@@ -23,7 +23,7 @@ public:
 	}
 
 	void Action() {
-		_robot->SetSpeed(0.5, 0);
+		_robot->SetSpeed(0.2, 0);
 	}
 
 	virtual ~GoForward();
