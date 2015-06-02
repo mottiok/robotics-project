@@ -20,5 +20,14 @@ int main() {
 	Manager manager(&robot, &plan);
 	manager.Run();
 
+	/*
+	
+	CMap map;
+
+	map.SetResolutions(1,10);
+	map.LoadMap("hospital_section.png");
+	
+	*/
+	
 	return 0;
 }
