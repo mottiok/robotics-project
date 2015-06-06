@@ -16,8 +16,7 @@ float MapSearchNode::GoalDistanceEstimate(MapSearchNode &nodeGoal) {
     float deltaX = fabs((float)GetXPos() - (float)nodeGoal.GetYPos());
     float deltaY = fabs((float)GetXPos() - (float)nodeGoal.GetYPos());
 
-    // By design we don't use here the full pythagoras sentence - big numbers better in heuristic function
-    return deltaX + deltaY;
+    return sqrt(deltaX*deltaX + deltaY*deltaY);
 }
 
 bool MapSearchNode::IsGoal(MapSearchNode &nodeGoal) {

@@ -25,8 +25,9 @@ int main() {
 
 	CMap map;
 
-	map.SetResolutions(1, 5);
-	map.LoadMap("hospital_section.png");
+	map.SetResolutions(2.5, 10);
+//	map.LoadMap("hospital_section.png");
+        map.LoadMap("robotic_lab_map.png");
 
         /* TODO: Need a bit of refactoring for the coordinate/position struct
          * On the one hand, the struct called "SPosition" on the other hand it
@@ -36,12 +37,17 @@ int main() {
         // Usage Example:
         
         // Real world positions
-	dword startX = 543, startY = 221;
-	dword goalX = 182, goalY = 60;
+	dword startX = 362, startY = 305;
+	dword goalX = 169, goalY = 138;
         
         // Convert to start and goal cells in our map
         SPosition startCellPos = map.PixelCoordToCellPosition(startX, startY);
         SPosition goalCellPos = map.PixelCoordToCellPosition(goalX, goalY);
+        
+//        map.ColorCellByCoord(startCellPos.dwX, startCellPos.dwY, 255, 0, 0);
+//        map.ColorCellByCoord(goalCellPos.dwX, goalCellPos.dwY, 0, 255, 0);
+//        map.DumpMap("debug.png");
+//        return 0;
 
         // Create planner and find the best path from start to goal position
 	PathPlanner planner(&map);
