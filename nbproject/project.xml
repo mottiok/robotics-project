@@ -12,6 +12,7 @@
             <sourceRootList>
                 <sourceRootElem>Plans</sourceRootElem>
                 <sourceRootElem>Behaviors</sourceRootElem>
+                <sourceRootElem>Libraries</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

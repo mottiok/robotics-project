@@ -4,11 +4,6 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Manager.h</itemPath>
-      <itemPath>Map.h</itemPath>
-      <itemPath>Robot.h</itemPath>
-      <itemPath>lodepng.h</itemPath>
-      <itemPath>typedefs.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -27,6 +22,12 @@
         <itemPath>Behaviors/TurnRight.cpp</itemPath>
         <itemPath>Behaviors/TurnRight.h</itemPath>
       </logicalFolder>
+      <logicalFolder name="Libraries" displayName="Libraries" projectFiles="true">
+        <itemPath>Libraries/fsa.h</itemPath>
+        <itemPath>Libraries/lodepng.cpp</itemPath>
+        <itemPath>Libraries/lodepng.h</itemPath>
+        <itemPath>Libraries/stlastar.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="Plans" displayName="Plans" projectFiles="true">
         <itemPath>Plans/ObstacleAvoidancePlan.cpp</itemPath>
         <itemPath>Plans/ObstacleAvoidancePlan.h</itemPath>
@@ -34,10 +35,17 @@
         <itemPath>Plans/Plan.h</itemPath>
       </logicalFolder>
       <itemPath>Manager.cpp</itemPath>
+      <itemPath>Manager.h</itemPath>
       <itemPath>Map.cpp</itemPath>
+      <itemPath>Map.h</itemPath>
+      <itemPath>MapSearchNode.cpp</itemPath>
+      <itemPath>MapSearchNode.h</itemPath>
+      <itemPath>PathPlanner.cpp</itemPath>
+      <itemPath>PathPlanner.h</itemPath>
       <itemPath>Robot.cpp</itemPath>
-      <itemPath>lodepng.cpp</itemPath>
+      <itemPath>Robot.h</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>typedefs.h</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -54,6 +62,7 @@
   <sourceRootList>
     <Elem>Plans</Elem>
     <Elem>Behaviors</Elem>
+    <Elem>Libraries</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -91,6 +100,14 @@
       </item>
       <item path="Behaviors/TurnRight.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Libraries/fsa.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Libraries/lodepng.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Libraries/lodepng.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Libraries/stlastar.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Manager.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Manager.h" ex="false" tool="3" flavor2="0">
@@ -98,6 +115,14 @@
       <item path="Map.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Map.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MapSearchNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MapSearchNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PathPlanner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="PathPlanner.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Plans/ObstacleAvoidancePlan.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -110,10 +135,6 @@
       <item path="Robot.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Robot.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="lodepng.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="lodepng.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -156,6 +177,14 @@
       </item>
       <item path="Behaviors/TurnRight.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Libraries/fsa.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Libraries/lodepng.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Libraries/lodepng.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Libraries/stlastar.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Manager.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Manager.h" ex="false" tool="3" flavor2="0">
@@ -163,6 +192,14 @@
       <item path="Map.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Map.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MapSearchNode.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MapSearchNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PathPlanner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="PathPlanner.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Plans/ObstacleAvoidancePlan.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -175,10 +212,6 @@
       <item path="Robot.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Robot.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="lodepng.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="lodepng.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

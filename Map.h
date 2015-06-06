@@ -26,6 +26,14 @@ struct SMapCell
 	bool  fIsPassable;
 };
 
+struct SPosition
+{
+	dword dwX;
+	dword dwY;
+        SPosition(): dwX(0), dwY(0) { }
+	SPosition(dword dX, dword dY): dwX(dX), dwY(dY) { }
+};
+
 class CMap
 {
 	dword m_dwMapWidth;
@@ -49,10 +57,14 @@ class CMap
 	void ColorCell(dword dwCellOffset, byte R, byte G, byte B);
 	void CoatObstacle(dword dwCellOffset, dword dwRadius, dword dwWeight);
 	void CoatObstacleWeights();
+	const double PixelPerCell();
+	const dword CellsInWidth();
+	const dword CellsInHeight();
+	dword GetCellOffsetByCoord(dword dX, dword dY);
 
 	// Debug
-	void DumpMap(SPNGCell* pMap, dword dwWidth, dword dwHeight, char* szFilename);
-	void DumpMap(vector<SPNGCell>& map, dword dwWidth, dword dwHeight, char* szFilename);
+	void DumpMap(SPNGCell* pMap, dword dwWidth, dword dwHeight, const char* szFilename);
+	void DumpMap(vector<SPNGCell>& map, dword dwWidth, dword dwHeight, const char* szFilename);
 
 	public:
 		
@@ -61,10 +73,14 @@ class CMap
 		 m_dwGridResolution(0) {};
 	~CMap();
 
-	bool LoadMap(char* szMapPath);
+	bool LoadMap(const char* szMapPath);
 	bool BlowMapObstacles(word wPixelRadius);
 	void SetResolutions(dword dwPixelResolution, dword dwGridResolution);
 	SMapCell* GetCellByPixelCoord(double fX, double fY);
+	SMapCell* GetMapCell(dword dX, dword dY);
+	void ColorCellByCoord(dword dX, dword dY, byte R, byte G, byte B);
+	void DumpMap(const char* szFilename);
+	SPosition PixelCoordToCellPosition(double fX, double fY);
 };
 
 #endif

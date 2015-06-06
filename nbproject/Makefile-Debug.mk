@@ -39,12 +39,14 @@ OBJECTFILES= \
 	${OBJECTDIR}/Behaviors/GoForward.o \
 	${OBJECTDIR}/Behaviors/TurnLeft.o \
 	${OBJECTDIR}/Behaviors/TurnRight.o \
+	${OBJECTDIR}/Libraries/lodepng.o \
 	${OBJECTDIR}/Manager.o \
 	${OBJECTDIR}/Map.o \
+	${OBJECTDIR}/MapSearchNode.o \
+	${OBJECTDIR}/PathPlanner.o \
 	${OBJECTDIR}/Plans/ObstacleAvoidancePlan.o \
 	${OBJECTDIR}/Plans/Plan.o \
 	${OBJECTDIR}/Robot.o \
-	${OBJECTDIR}/lodepng.o \
 	${OBJECTDIR}/main.o
 
 
@@ -92,6 +94,11 @@ ${OBJECTDIR}/Behaviors/TurnRight.o: Behaviors/TurnRight.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Behaviors/TurnRight.o Behaviors/TurnRight.cpp
 
+${OBJECTDIR}/Libraries/lodepng.o: Libraries/lodepng.cpp 
+	${MKDIR} -p ${OBJECTDIR}/Libraries
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Libraries/lodepng.o Libraries/lodepng.cpp
+
 ${OBJECTDIR}/Manager.o: Manager.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -101,6 +108,16 @@ ${OBJECTDIR}/Map.o: Map.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Map.o Map.cpp
+
+${OBJECTDIR}/MapSearchNode.o: MapSearchNode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MapSearchNode.o MapSearchNode.cpp
+
+${OBJECTDIR}/PathPlanner.o: PathPlanner.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PathPlanner.o PathPlanner.cpp
 
 ${OBJECTDIR}/Plans/ObstacleAvoidancePlan.o: Plans/ObstacleAvoidancePlan.cpp 
 	${MKDIR} -p ${OBJECTDIR}/Plans
@@ -116,11 +133,6 @@ ${OBJECTDIR}/Robot.o: Robot.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Robot.o Robot.cpp
-
-${OBJECTDIR}/lodepng.o: lodepng.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/lodepng.o lodepng.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
