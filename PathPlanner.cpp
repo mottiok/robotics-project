@@ -8,12 +8,12 @@
 #include "PathPlanner.h"
 #include "Libraries/stlastar.h"
 
-// Debug Purpose Only
+// Debug
 #define DRAW_ALGORITHM_PROCESS
 #define ALGORITHM_EXPANSION_COLOR 200, 255, 255
-#define RED_COLOR	255, 0, 0
-#define GREEN_COLOR	0, 255, 0
-#define BLUE_COLOR	0, 0, 255
+#define RED_RGB_FORMAT 255, 0, 0
+#define GREEN_RGB_FORMAT 0, 255, 0
+#define BLUE_RGB_FORMAT 0, 0, 255
 
 PathPlanner::PathPlanner(CMap* map) {
     _map = map;
@@ -66,7 +66,7 @@ bool PathPlanner::GetPathByStartAndGoalPosition(SPosition startPosition,
         int nodes = 1;
         MapSearchNode *node = _aStarAlgorithm->GetSolutionStart();
 #ifdef DRAW_ALGORITHM_PROCESS
-        _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), RED_COLOR);
+        _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), RED_RGB_FORMAT);
 #endif
         nodesFromStartToGoal.push_back(node);
 
@@ -76,13 +76,13 @@ bool PathPlanner::GetPathByStartAndGoalPosition(SPosition startPosition,
             if (!node) {
 #ifdef DRAW_ALGORITHM_PROCESS
                 node = _aStarAlgorithm->GetSolutionEnd();
-                _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), GREEN_COLOR);
+                _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), GREEN_RGB_FORMAT);
 #endif
                 break;
             }
 
 #ifdef DRAW_ALGORITHM_PROCESS
-            _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), BLUE_COLOR);
+            _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), BLUE_RGB_FORMAT);
 #endif
             nodes++;
             nodesFromStartToGoal.push_back(node);
