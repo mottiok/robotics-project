@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>Manager.h</itemPath>
+      <itemPath>Map.h</itemPath>
+      <itemPath>Robot.h</itemPath>
+      <itemPath>lodepng.h</itemPath>
+      <itemPath>typedefs.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="Behaviors" displayName="Behaviors" projectFiles="true">
+        <itemPath>Behaviors/Behavior.cpp</itemPath>
+        <itemPath>Behaviors/Behavior.h</itemPath>
+        <itemPath>Behaviors/GoForward.cpp</itemPath>
+        <itemPath>Behaviors/GoForward.h</itemPath>
+        <itemPath>Behaviors/TurnLeft.cpp</itemPath>
+        <itemPath>Behaviors/TurnLeft.h</itemPath>
+        <itemPath>Behaviors/TurnRight.cpp</itemPath>
+        <itemPath>Behaviors/TurnRight.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="Plans" displayName="Plans" projectFiles="true">
+        <itemPath>Plans/ObstacleAvoidancePlan.cpp</itemPath>
+        <itemPath>Plans/ObstacleAvoidancePlan.h</itemPath>
+        <itemPath>Plans/Plan.cpp</itemPath>
+        <itemPath>Plans/Plan.h</itemPath>
+      </logicalFolder>
+      <itemPath>Manager.cpp</itemPath>
+      <itemPath>Map.cpp</itemPath>
+      <itemPath>Robot.cpp</itemPath>
+      <itemPath>lodepng.cpp</itemPath>
+      <itemPath>main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>Plans</Elem>
+    <Elem>Behaviors</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>/usr/local/include/player-2.0</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>playerc++</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="Behaviors/Behavior.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Behaviors/Behavior.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Behaviors/GoForward.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Behaviors/GoForward.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Behaviors/TurnLeft.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Behaviors/TurnLeft.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Behaviors/TurnRight.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Behaviors/TurnRight.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Manager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Manager.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Map.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Map.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Plans/ObstacleAvoidancePlan.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Plans/ObstacleAvoidancePlan.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Plans/Plan.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Plans/Plan.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Robot.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Robot.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="lodepng.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="lodepng.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="typedefs.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="Behaviors/Behavior.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Behaviors/Behavior.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Behaviors/GoForward.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Behaviors/GoForward.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Behaviors/TurnLeft.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Behaviors/TurnLeft.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Behaviors/TurnRight.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Behaviors/TurnRight.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Manager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Manager.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Map.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Map.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Plans/ObstacleAvoidancePlan.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Plans/ObstacleAvoidancePlan.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Plans/Plan.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Plans/Plan.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Robot.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Robot.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="lodepng.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="lodepng.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="typedefs.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
