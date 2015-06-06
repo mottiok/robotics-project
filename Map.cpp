@@ -1,6 +1,6 @@
 #include "Map.h"
 #include <math.h>
-#include "lodepng.h"
+#include "Libraries/lodepng.h"
 #include <stdio.h>
 
 #define RGBA_CELL_SIZE 4
@@ -78,15 +78,10 @@ void CMap::SetResolutions(dword dwPixelResolution, dword dwGridResolution)
 
 dword CMap::PixelCoordToCellCoord(double fX, double fY)
 {
-	const double fPixelsPerCell = ((double)m_dwGridResolution / (double)m_dwPixelResolution);
-	const dword dwCellsInWidth = ((double)m_dwMapWidth) / fPixelsPerCell;
-
 	// This only works assuming that MapWidth / PixelsPerCell is a whole number!
-	// i.e. that dwCellsInWidth indeed gets filled with a legal value 
-	dword dwCellX = (dword)floor(fX / fPixelsPerCell);
-	dword dwCellY = (dword)floor(fY / fPixelsPerCell);
-
-	return ((dwCellY * dwCellsInWidth) + dwCellX);
+	// i.e. that dwCellsInWidth indeed gets filled with a legal value
+        SPosition position = PixelCoordToCellPosition(fX, fY);
+	return ((position.dwY * CellsInWidth()) + position.dwX);
 }
 
 SMapCell* CMap::GetCellByPixelCoord(double fX, double fY)
@@ -104,13 +99,10 @@ SMapCell* CMap::GetCellByPixelCoord(double fX, double fY)
 
 dword CMap::GetCellStartingPixelByCellOffset(dword dwCellOffset)
 {
-	const double fPixelsPerCell = ((double)m_dwGridResolution / (double)m_dwPixelResolution);
-	const dword dwCellsInWidth = ((double)m_dwMapWidth) / fPixelsPerCell;
+	dword dwCellX = dwCellOffset % CellsInWidth();
+	dword dwCellY = dwCellOffset / CellsInWidth();
 
-	dword dwCellX = dwCellOffset % dwCellsInWidth;
-	dword dwCellY = dwCellOffset / dwCellsInWidth;
-
-	return ((dwCellY * dwCellsInWidth * fPixelsPerCell) + (dwCellX * fPixelsPerCell));
+	return ((dwCellY * CellsInWidth() * PixelPerCell()) + (dwCellX * PixelPerCell()));
 }	
 
 void CMap::BlowPixel(dword dwX, dword dwY, word wPixelRadius)
@@ -162,12 +154,6 @@ void CMap::BlowPixel(dword dwX, dword dwY, word wPixelRadius)
 	}
 }
 
-struct SPosition
-{
-	dword dwX;
-	dword dwY;
-};
-
 bool CMap::BlowMapObstacles(word wPixelRadius)
 {
 	if (!m_fIsMapLoaded)
@@ -211,15 +197,13 @@ bool CMap::BlowMapObstacles(word wPixelRadius)
 bool CMap::IsPassableCell(dword dwCellOffset)
 {
 	dword dwPixelOffset = GetCellStartingPixelByCellOffset(dwCellOffset);
-	const double fPixelsPerCell = ((double)m_dwGridResolution / (double)m_dwPixelResolution);
-	const dword dwCellsInWidth = ((double)m_dwMapWidth) / fPixelsPerCell;
 
 	dword dwX = dwPixelOffset % m_dwMapWidth;
-	dword dwY = (dwPixelOffset / m_dwMapWidth) * fPixelsPerCell;
+	dword dwY = (dwPixelOffset / m_dwMapWidth) * PixelPerCell();
 	dword dwCurrX = dwX, dwCurrY = dwY;
 
 	// Check all pixels in this cell
-	while (dwCurrX != (dwX) || dwCurrY != (dwY + fPixelsPerCell))
+	while (dwCurrX != (dwX) || dwCurrY != (dwY + PixelPerCell()))
 	{
 		SPNGCell* pCurrPixel = GetPixelByCoord(dwCurrX, dwCurrY);
 		
@@ -232,7 +216,7 @@ bool CMap::IsPassableCell(dword dwCellOffset)
 
 		dwCurrX++;
 
-		if (dwCurrX == m_dwMapWidth || dwCurrX == dwX + fPixelsPerCell)
+		if (dwCurrX == m_dwMapWidth || dwCurrX == dwX + PixelPerCell())
 		{
 			dwCurrX = dwX;
 			dwCurrY++;
@@ -244,17 +228,13 @@ bool CMap::IsPassableCell(dword dwCellOffset)
 
 void CMap::PrepareMapGrid()
 {
-	const double fPixelsPerCell = ((double)m_dwGridResolution / (double)m_dwPixelResolution);
-	const dword dwCellsInWidth = ((double)m_dwMapWidth) / fPixelsPerCell;
-	const dword dwCellsInHeight = ((double)m_dwMapHeight) / fPixelsPerCell;
-	
 	if (NULL != m_pWeightedMap)
 		delete[] m_pWeightedMap;
 
-	m_pWeightedMap = new SMapCell[dwCellsInHeight * dwCellsInWidth];
+	m_pWeightedMap = new SMapCell[CellsInHeight() * CellsInWidth()];
 
 	// For each cell determine if passable or not!
-	for (dword dwCurrCell = 0; dwCurrCell < dwCellsInHeight * dwCellsInWidth; dwCurrCell++)
+	for (dword dwCurrCell = 0; dwCurrCell < CellsInHeight() * CellsInWidth(); dwCurrCell++)
 	{
 		m_pWeightedMap[dwCurrCell].fIsPassable = IsPassableCell(dwCurrCell);
 		m_pWeightedMap[dwCurrCell].dwWeight = 
@@ -265,20 +245,16 @@ void CMap::PrepareMapGrid()
 void CMap::ColorCell(dword dwCellOffset, byte R, byte G, byte B)
 {
 	dword dwPixelOffset = GetCellStartingPixelByCellOffset(dwCellOffset);
-	const double fPixelsPerCell = ((double)m_dwGridResolution / (double)m_dwPixelResolution);
 
 	dword dwX = dwPixelOffset % m_dwMapWidth;
-	dword dwY = (dwPixelOffset / m_dwMapWidth) * fPixelsPerCell;
+	dword dwY = (dwPixelOffset / m_dwMapWidth) * PixelPerCell();
 	dword dwCurrX = dwX, dwCurrY = dwY;
-	
-	const dword dwCellsInWidth = ((double)m_dwMapWidth) / fPixelsPerCell;
-	const dword dwCellsInHeight = ((double)m_dwMapHeight) / fPixelsPerCell;
 
-	dword dwCellX = dwCellOffset % dwCellsInWidth;
-	dword dwCellY = dwCellOffset / dwCellsInWidth;
+//	dword dwCellX = dwCellOffset % CellsInWidth();
+//	dword dwCellY = dwCellOffset / CellsInWidth();
 
 	// Color all pixels
-	while (dwCurrX != dwX || ((dwCurrY != (dwY + fPixelsPerCell)) && (dwCurrY < m_dwMapHeight)))
+	while (dwCurrX != dwX || ((dwCurrY != (dwY + PixelPerCell())) && (dwCurrY < m_dwMapHeight)))
 	{
 		SPNGCell* pCurrPixel = GetPixelByCoord(dwCurrX, dwCurrY);
 
@@ -288,7 +264,7 @@ void CMap::ColorCell(dword dwCellOffset, byte R, byte G, byte B)
 
 		dwCurrX++;
 
-		if (dwCurrX == m_dwMapWidth || dwCurrX == dwX + fPixelsPerCell)
+		if (dwCurrX == m_dwMapWidth || dwCurrX == dwX + PixelPerCell())
 		{
 			dwCurrX = dwX;
 			dwCurrY++;
@@ -298,17 +274,13 @@ void CMap::ColorCell(dword dwCellOffset, byte R, byte G, byte B)
 
 void CMap::CoatObstacle(dword dwCellOffset, dword dwRadius, dword dwWeight)
 {
-	const double fPixelsPerCell = ((double)m_dwGridResolution / (double)m_dwPixelResolution);
-	const dword dwCellsInWidth = ((double)m_dwMapWidth) / fPixelsPerCell;
-	const dword dwCellsInHeight = ((double)m_dwMapHeight) / fPixelsPerCell;
-
-	dword dwX = dwCellOffset % dwCellsInWidth;
-	dword dwY = dwCellOffset / dwCellsInWidth;
+	dword dwX = dwCellOffset % CellsInWidth();
+	dword dwY = dwCellOffset / CellsInWidth();
 
 	dword dwLeftLimit, dwRightLimit, dwDownLimit, dwUpLimit;
 
-	if (dwCellsInHeight <= dwY + dwRadius)
-		dwDownLimit = dwCellsInHeight - dwY;
+	if (CellsInHeight() <= dwY + dwRadius)
+		dwDownLimit = CellsInHeight() - dwY;
 	else
 		dwDownLimit = dwRadius;
 
@@ -317,8 +289,8 @@ void CMap::CoatObstacle(dword dwCellOffset, dword dwRadius, dword dwWeight)
 	else
 		dwUpLimit = dwRadius;
 
-	if (dwCellsInWidth <= dwX + dwRadius)
-		dwRightLimit = dwCellsInWidth - dwX;
+	if (CellsInWidth() <= dwX + dwRadius)
+		dwRightLimit = CellsInWidth() - dwX;
 	else
 		dwRightLimit = dwRadius;
 
@@ -334,25 +306,25 @@ void CMap::CoatObstacle(dword dwCellOffset, dword dwRadius, dword dwWeight)
 
 	while (dwCurrX != (dwX - dwLeftLimit) || dwCurrY != (dwY + dwDownLimit + 1))
 	{
-		if (m_pWeightedMap[(dwCurrY * dwCellsInWidth) + dwCurrX].fIsPassable &&
-		    m_pWeightedMap[(dwCurrY * dwCellsInWidth) + dwCurrX].dwWeight < dwWeight)
+		if (m_pWeightedMap[(dwCurrY * CellsInWidth()) + dwCurrX].fIsPassable &&
+		    m_pWeightedMap[(dwCurrY * CellsInWidth()) + dwCurrX].dwWeight < dwWeight)
 		{
 			// DEBUG!
 			if (dwWeight == LOW_PRIOR_WEIGHT)
 			{
-				ColorCell((dwCurrY * dwCellsInWidth) + dwCurrX, 142, 142, 142); // Debug, color grey
+				ColorCell((dwCurrY * CellsInWidth()) + dwCurrX, 142, 142, 142); // Debug, color grey
 			}
 			else if (dwWeight == MED_PRIOR_WEIGHT)
 			{
-				ColorCell((dwCurrY * dwCellsInWidth) + dwCurrX, 198, 198, 198); // Debug, color grey			
+				ColorCell((dwCurrY * CellsInWidth()) + dwCurrX, 198, 198, 198); // Debug, color grey
 			}
 
-			m_pWeightedMap[(dwCurrY * dwCellsInWidth) + dwCurrX].dwWeight = dwWeight;
+			m_pWeightedMap[(dwCurrY * CellsInWidth()) + dwCurrX].dwWeight = dwWeight;
 		}
 
 		dwCurrX++;
 
-		if (dwCurrX == dwCellsInWidth || dwCurrX == dwX + dwRightLimit + 1)
+		if (dwCurrX == CellsInWidth() || dwCurrX == dwX + dwRightLimit + 1)
 		{
 			dwCurrX = dwX - dwLeftLimit;
 			dwCurrY++;
@@ -362,16 +334,12 @@ void CMap::CoatObstacle(dword dwCellOffset, dword dwRadius, dword dwWeight)
 
 void CMap::CoatObstacleWeights()
 {
-	const double fPixelsPerCell = ((double)m_dwGridResolution / (double)m_dwPixelResolution);
-	const dword dwCellsInWidth = ((double)m_dwMapWidth) / fPixelsPerCell;
-	const dword dwCellsInHeight = ((double)m_dwMapHeight) / fPixelsPerCell;
-
-	printf("Map has %u x %u cells (cell size %u x %u).\n", dwCellsInWidth, dwCellsInHeight, (dword)fPixelsPerCell, (dword)fPixelsPerCell);
+	printf("Map has %u x %u cells (cell size %u x %u).\n", CellsInWidth(), CellsInHeight(), (dword)PixelPerCell(), (dword)PixelPerCell());
 
 	// For each cell determine if passable or not!
-	for (dword dwCurrCell = 0; dwCurrCell < dwCellsInHeight * dwCellsInWidth; dwCurrCell++)
+	for (dword dwCurrCell = 0; dwCurrCell < CellsInHeight() * CellsInWidth(); dwCurrCell++)
 	{
-		dword dwPixelOffset = GetCellStartingPixelByCellOffset(dwCurrCell);
+//		dword dwPixelOffset = GetCellStartingPixelByCellOffset(dwCurrCell);
 		
 		if (!m_pWeightedMap[dwCurrCell].fIsPassable)
 		{
@@ -381,7 +349,7 @@ void CMap::CoatObstacleWeights()
 	}
 }
 
-bool CMap::LoadMap(char* szMapPath)
+bool CMap::LoadMap(const char* szMapPath)
 {
 	vector<byte> vRawImg;
 
@@ -433,7 +401,7 @@ bool CMap::LoadMap(char* szMapPath)
 	return true;
 }
 
-void CMap::DumpMap(SPNGCell* pMap, dword dwWidth, dword dwHeight, char* szFilename)
+void CMap::DumpMap(SPNGCell* pMap, dword dwWidth, dword dwHeight, const char* szFilename)
 {
 	vector<SPNGCell> map;
 
@@ -450,7 +418,7 @@ void CMap::DumpMap(SPNGCell* pMap, dword dwWidth, dword dwHeight, char* szFilena
 	DumpMap(map, dwWidth, dwHeight, szFilename);
 }
 
-void CMap::DumpMap(vector<SPNGCell>& map, dword dwWidth, dword dwHeight, char* szFilename)
+void CMap::DumpMap(vector<SPNGCell>& map, dword dwWidth, dword dwHeight, const char* szFilename)
 {
 	vector<byte> vRawImg;
 
@@ -465,4 +433,48 @@ void CMap::DumpMap(vector<SPNGCell>& map, dword dwWidth, dword dwHeight, char* s
 	}
 
 	lodepng::encode(szFilename, vRawImg, dwWidth, dwHeight);
+}
+
+const double CMap::PixelPerCell() {
+	const double fPixelsPerCell = ((double)m_dwGridResolution / (double)m_dwPixelResolution);
+	return fPixelsPerCell;
+}
+
+const dword CMap::CellsInWidth() {
+	const dword dwCellsInWidth = ((double)m_dwMapWidth) / PixelPerCell();
+	return dwCellsInWidth;
+}
+
+const dword CMap::CellsInHeight() {
+	const dword dwCellsInHeight = ((double)m_dwMapHeight) / PixelPerCell();
+	return dwCellsInHeight;
+}
+
+dword CMap::GetCellOffsetByCoord(dword dX, dword dY) {
+	return (dY * CellsInWidth()) + dX;
+}
+
+SMapCell* CMap::GetMapCell(dword dX, dword dY)
+{
+	if (!m_fIsMapLoaded)
+		return NULL;
+
+	if (dX >= m_dwMapWidth || dY >= m_dwMapHeight)
+		return NULL;
+
+	return &(m_pWeightedMap[GetCellOffsetByCoord(dX, dY)]);
+}
+
+void CMap::ColorCellByCoord(dword dX, dword dY, byte R, byte G, byte B) {
+	ColorCell(GetCellOffsetByCoord(dX, dY), R, G, B);
+}
+
+void CMap::DumpMap(const char* szFilename) {
+	DumpMap(m_pRawMap, m_dwMapWidth, m_dwMapHeight, szFilename);
+}
+
+SPosition CMap::PixelCoordToCellPosition(double fX, double fY) {
+	dword dwCellX = (dword)floor(fX / PixelPerCell());
+        dword dwCellY = (dword)floor(fY / PixelPerCell());
+	return SPosition(dwCellX, dwCellY);
 }
