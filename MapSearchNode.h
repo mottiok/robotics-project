@@ -24,9 +24,9 @@ public:
     // TODO:
     // I feel like each node knowing the map is a bad practice, how to refactor this one?
     // Maybe it's better to pass the path planner as a bridge to the map and not the actual map?
-    MapSearchNode(SPosition coordinate, CMap* map) {
+    MapSearchNode(SPosition position, CMap* map) {
         _map = map;
-        _position = coordinate;
+        _position = position;
     }
 
     virtual ~MapSearchNode();

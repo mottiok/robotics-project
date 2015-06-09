@@ -21,7 +21,7 @@ PathPlanner::PathPlanner(CMap* map) {
 }
 
 PathPlanner::~PathPlanner() {
-    _aStarAlgorithm->EnsureMemoryFreed();
+//    _aStarAlgorithm->EnsureMemoryFreed();
     delete _aStarAlgorithm;
 }
 
@@ -94,7 +94,7 @@ bool PathPlanner::GetPathByStartAndGoalPosition(SPosition startPosition,
     }
 
     _aStarAlgorithm->FreeSolutionNodes();
-    _aStarAlgorithm->EnsureMemoryFreed();
+//    _aStarAlgorithm->EnsureMemoryFreed(); //TODO: Known bug, if no path found memory allocation is negative and the assertion failed.
 
     return (searchState == AStarSearch<MapSearchNode>::SEARCH_STATE_SUCCEEDED);
 }

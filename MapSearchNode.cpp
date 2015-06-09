@@ -61,8 +61,8 @@ bool MapSearchNode::AddSuccessor(dword dX, dword dY, SPosition parentPosition, A
     if (cell != NULL &&
             !(dX == parentPosition.dwX &&
                 dY == parentPosition.dwY) && cell->fIsPassable) {
-        SPosition coordinate(dX, dY);
-        MapSearchNode newNode = MapSearchNode(coordinate, _map);
+        SPosition position(dX, dY);
+        MapSearchNode newNode = MapSearchNode(position, _map);
         aStarSearch->AddSuccessor(newNode);
         return true;
     }
