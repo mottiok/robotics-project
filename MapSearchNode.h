@@ -33,6 +33,7 @@ public:
 
     dword GetXPos() { return _position.dwX; }
     dword GetYPos() { return _position.dwY; }
+    SPosition& GetPosition() { return _position; }
 
     void SetPosition(dword dX, dword dY) {
         _position.dwX = dX;

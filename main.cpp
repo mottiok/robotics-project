@@ -15,6 +15,8 @@ using namespace std;
 #include "Map.h"
 #include "MapSearchNode.h"
 #include "PathPlanner.h"
+#include "WaypointManager.h"
+#include "Debug.h"
 
 int main() {
 
@@ -59,9 +61,28 @@ int main() {
         map.DumpMap("a_star_path.png");
         
         if (searchState) {
-            // TODO:
-            // Do something with 'nodesFromStartToGoal' and extract best waypoints
-            // to guide the robot as smooth as possible using WaypointManager
+		WaypointManager WpMgr;
+
+		if (!WpMgr.SetPath(nodesFromStartToGoal, DEFAULT_WAYPOINT_RESOLUTION, DEFAULT_WAYPOINT_ACCURACY))
+		{
+			printf("Failed to calculate waypoints...\n");
+			return 0;
+		}
+
+		WpMgr.InitWaypointTraversal();
+
+#ifdef DRAW_ALGORITHM_PROCESS
+		Waypoint* pCurrWP = WpMgr.GetStartWaypoint();
+
+		do
+		{
+			printf("Waypoint at (%u, %u)\n", pCurrWP->GetXPos(), pCurrWP->GetYPos());
+			map.ColorCellByCoord(pCurrWP->GetXPos(), pCurrWP->GetYPos(), YELLOW_RGB_FORMAT);
+		}
+		while (NULL != (pCurrWP = WpMgr.TraverseWaypoint()));
+
+		map.DumpMap("waypoint_path.png");
+#endif
         }
 
 	return 0;

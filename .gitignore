@@ -22,6 +22,12 @@
 *.a
 *.lib
 
+# Bash scripts
+*.sh
+
+# Pictures
+*.png
+
 # Executables
 *.exe
 *.out

@@ -7,13 +7,7 @@
 
 #include "PathPlanner.h"
 #include "Libraries/stlastar.h"
-
-// Debug
-#define DRAW_ALGORITHM_PROCESS
-#define ALGORITHM_EXPANSION_COLOR 200, 255, 255
-#define RED_RGB_FORMAT 255, 0, 0
-#define GREEN_RGB_FORMAT 0, 255, 0
-#define BLUE_RGB_FORMAT 0, 0, 255
+#include "Debug.h"
 
 PathPlanner::PathPlanner(CMap* map) {
     _map = map;
