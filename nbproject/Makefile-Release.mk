@@ -48,6 +48,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Plans/Plan.o \
 	${OBJECTDIR}/Robot.o \
 	${OBJECTDIR}/SDL2Wrapper.o \
+	${OBJECTDIR}/WaypointManager.o \
 	${OBJECTDIR}/main.o
 
 
@@ -139,6 +140,11 @@ ${OBJECTDIR}/SDL2Wrapper.o: SDL2Wrapper.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SDL2Wrapper.o SDL2Wrapper.cpp
+
+${OBJECTDIR}/WaypointManager.o: WaypointManager.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/WaypointManager.o WaypointManager.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}

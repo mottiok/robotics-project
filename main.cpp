@@ -35,7 +35,7 @@ int main() {
         SDL2Wrapper sdl;
         sdl.CreateWindow("World Map", map.GetMapWidth(), map.GetMapHeight());
         map.DrawMapState(&sdl, true);
-
+        
         /* TODO: Need a bit of refactoring for the coordinate/position struct
          * On the one hand, the struct called "SPosition" on the other hand it
          * used as coordinate. Maybe we should rename the struct to SCoordinate?
@@ -62,10 +62,15 @@ int main() {
         bool searchState = planner.GetPathByStartAndGoalPosition(startCellPos,
                 goalCellPos, nodesFromStartToGoal);
 
-        // Dump map with a-star expansion and colored path from start (red) to goal (green)
-        map.DumpMap("a_star_path.png");
-
         if (searchState) {
+#ifdef DRAW_PATH
+                for (int i=0; i < nodesFromStartToGoal.size(); i++) {
+                    map.ColorCellByCoord(nodesFromStartToGoal[i]->GetXPos(), nodesFromStartToGoal[i]->GetYPos(), BLUE_RGB_FORMAT);
+                }
+                
+                map.DumpMap("a_star_path.png");
+#endif
+            
 		WaypointManager WpMgr;
 
 		if (!WpMgr.SetPath(nodesFromStartToGoal, DEFAULT_WAYPOINT_RESOLUTION, DEFAULT_WAYPOINT_ACCURACY))
@@ -76,7 +81,7 @@ int main() {
 
 		WpMgr.InitWaypointTraversal();
 
-#ifdef DRAW_ALGORITHM_PROCESS
+#ifdef DRAW_WAYPOINTS
 		Waypoint* pCurrWP = WpMgr.GetStartWaypoint();
 
 		do
@@ -89,6 +94,9 @@ int main() {
 		map.DumpMap("waypoint_path.png");
 #endif
         }
+        
+        map.DrawMapState(&sdl, true);
+        sdl.Delay(2000);
 
         return 0;
 }

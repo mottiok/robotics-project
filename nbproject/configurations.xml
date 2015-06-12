@@ -104,6 +104,8 @@
       </item>
       <item path="Behaviors/TurnRight.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Debug.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Libraries/fsa.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Libraries/lodepng.cpp" ex="false" tool="1" flavor2="0">
@@ -143,6 +145,12 @@
       <item path="SDL2Wrapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SDL2Wrapper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Waypoint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WaypointManager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WaypointManager.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -185,6 +193,8 @@
       </item>
       <item path="Behaviors/TurnRight.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Debug.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Libraries/fsa.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Libraries/lodepng.cpp" ex="false" tool="1" flavor2="0">
@@ -224,6 +234,12 @@
       <item path="SDL2Wrapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SDL2Wrapper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Waypoint.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="WaypointManager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="WaypointManager.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

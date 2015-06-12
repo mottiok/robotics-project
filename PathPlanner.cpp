@@ -30,13 +30,14 @@ void PathPlanner::SearchPath(dword& searchState, int& searchSteps) {
     do {
         searchSteps++;
         searchState = _aStarAlgorithm->SearchStep();
+#ifdef DRAW_ASTAR_EXPANSION
         MapSearchNode *node = _aStarAlgorithm->GetOpenListStart();
         while (node) {
-#ifdef DRAW_ALGORITHM_PROCESS
-            _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), ALGORITHM_EXPANSION_COLOR);
-#endif
+
+            _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), ASTAR_EXPANSION_COLOR);
             node = _aStarAlgorithm->GetOpenListNext();
         }
+#endif
     } while (searchState == AStarSearch<MapSearchNode>::SEARCH_STATE_SEARCHING);
 }
 
@@ -59,25 +60,15 @@ bool PathPlanner::GetPathByStartAndGoalPosition(SPosition startPosition,
 
         int nodes = 1;
         MapSearchNode *node = _aStarAlgorithm->GetSolutionStart();
-#ifdef DRAW_ALGORITHM_PROCESS
-        _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), RED_RGB_FORMAT);
-#endif
         nodesFromStartToGoal.push_back(node);
 
         for (;;) {
             node = _aStarAlgorithm->GetSolutionNext();
 
             if (!node) {
-#ifdef DRAW_ALGORITHM_PROCESS
-                node = _aStarAlgorithm->GetSolutionEnd();
-                _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), GREEN_RGB_FORMAT);
-#endif
                 break;
             }
 
-#ifdef DRAW_ALGORITHM_PROCESS
-            _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), BLUE_RGB_FORMAT);
-#endif
             nodes++;
             nodesFromStartToGoal.push_back(node);
         }
