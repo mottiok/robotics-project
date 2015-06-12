@@ -47,6 +47,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Plans/ObstacleAvoidancePlan.o \
 	${OBJECTDIR}/Plans/Plan.o \
 	${OBJECTDIR}/Robot.o \
+	${OBJECTDIR}/SDL2Wrapper.o \
 	${OBJECTDIR}/main.o
 
 
@@ -133,6 +134,11 @@ ${OBJECTDIR}/Robot.o: Robot.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Robot.o Robot.cpp
+
+${OBJECTDIR}/SDL2Wrapper.o: SDL2Wrapper.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SDL2Wrapper.o SDL2Wrapper.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -9,6 +9,7 @@
 
 #include <vector>
 #include "typedefs.h"
+#include "SDL2Wrapper.h"
 
 using namespace std;
 
@@ -65,6 +66,10 @@ class CMap
 	// Debug
 	void DumpMap(SPNGCell* pMap, dword dwWidth, dword dwHeight, const char* szFilename);
 	void DumpMap(vector<SPNGCell>& map, dword dwWidth, dword dwHeight, const char* szFilename);
+        
+        // SDL2 Implementation
+        void DrawPixel(SDL2Wrapper* sdl, dword dwX, dword dwY, SPNGCell pixel);
+        void FillMapCellByCellOffset(SDL2Wrapper* sdl, dword dwCellOffset, byte R, byte G, byte B);
 
 	public:
 		
@@ -81,6 +86,12 @@ class CMap
 	void ColorCellByCoord(dword dX, dword dY, byte R, byte G, byte B);
 	void DumpMap(const char* szFilename);
 	SPosition PixelCoordToCellPosition(double fX, double fY);
+        dword GetMapWidth();
+        dword GetMapHeight();
+        
+        // SDL2 Implementation
+        void DrawMapState(SDL2Wrapper* sdl, bool flushImmediately);
+        void FillMapCellByCoord(SDL2Wrapper* sdl, dword dX, dword dY, byte R, byte G, byte B);
 };
 
 #endif

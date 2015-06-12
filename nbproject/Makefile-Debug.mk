@@ -47,6 +47,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Plans/ObstacleAvoidancePlan.o \
 	${OBJECTDIR}/Plans/Plan.o \
 	${OBJECTDIR}/Robot.o \
+	${OBJECTDIR}/SDL2Wrapper.o \
 	${OBJECTDIR}/main.o
 
 
@@ -64,7 +65,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lplayerc++
+LDLIBSOPTIONS=-lplayerc++ -lSDL2
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -77,67 +78,72 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/robotics-project: ${OBJECTFILES}
 ${OBJECTDIR}/Behaviors/Behavior.o: Behaviors/Behavior.cpp 
 	${MKDIR} -p ${OBJECTDIR}/Behaviors
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Behaviors/Behavior.o Behaviors/Behavior.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Behaviors/Behavior.o Behaviors/Behavior.cpp
 
 ${OBJECTDIR}/Behaviors/GoForward.o: Behaviors/GoForward.cpp 
 	${MKDIR} -p ${OBJECTDIR}/Behaviors
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Behaviors/GoForward.o Behaviors/GoForward.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Behaviors/GoForward.o Behaviors/GoForward.cpp
 
 ${OBJECTDIR}/Behaviors/TurnLeft.o: Behaviors/TurnLeft.cpp 
 	${MKDIR} -p ${OBJECTDIR}/Behaviors
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Behaviors/TurnLeft.o Behaviors/TurnLeft.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Behaviors/TurnLeft.o Behaviors/TurnLeft.cpp
 
 ${OBJECTDIR}/Behaviors/TurnRight.o: Behaviors/TurnRight.cpp 
 	${MKDIR} -p ${OBJECTDIR}/Behaviors
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Behaviors/TurnRight.o Behaviors/TurnRight.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Behaviors/TurnRight.o Behaviors/TurnRight.cpp
 
 ${OBJECTDIR}/Libraries/lodepng.o: Libraries/lodepng.cpp 
 	${MKDIR} -p ${OBJECTDIR}/Libraries
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Libraries/lodepng.o Libraries/lodepng.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Libraries/lodepng.o Libraries/lodepng.cpp
 
 ${OBJECTDIR}/Manager.o: Manager.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Manager.o Manager.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Manager.o Manager.cpp
 
 ${OBJECTDIR}/Map.o: Map.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Map.o Map.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Map.o Map.cpp
 
 ${OBJECTDIR}/MapSearchNode.o: MapSearchNode.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MapSearchNode.o MapSearchNode.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MapSearchNode.o MapSearchNode.cpp
 
 ${OBJECTDIR}/PathPlanner.o: PathPlanner.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PathPlanner.o PathPlanner.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PathPlanner.o PathPlanner.cpp
 
 ${OBJECTDIR}/Plans/ObstacleAvoidancePlan.o: Plans/ObstacleAvoidancePlan.cpp 
 	${MKDIR} -p ${OBJECTDIR}/Plans
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Plans/ObstacleAvoidancePlan.o Plans/ObstacleAvoidancePlan.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Plans/ObstacleAvoidancePlan.o Plans/ObstacleAvoidancePlan.cpp
 
 ${OBJECTDIR}/Plans/Plan.o: Plans/Plan.cpp 
 	${MKDIR} -p ${OBJECTDIR}/Plans
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Plans/Plan.o Plans/Plan.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Plans/Plan.o Plans/Plan.cpp
 
 ${OBJECTDIR}/Robot.o: Robot.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Robot.o Robot.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Robot.o Robot.cpp
+
+${OBJECTDIR}/SDL2Wrapper.o: SDL2Wrapper.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SDL2Wrapper.o SDL2Wrapper.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:

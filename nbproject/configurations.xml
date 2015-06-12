@@ -44,6 +44,8 @@
       <itemPath>PathPlanner.h</itemPath>
       <itemPath>Robot.cpp</itemPath>
       <itemPath>Robot.h</itemPath>
+      <itemPath>SDL2Wrapper.cpp</itemPath>
+      <itemPath>SDL2Wrapper.h</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>typedefs.h</itemPath>
     </logicalFolder>
@@ -76,11 +78,13 @@
         <ccTool>
           <incDir>
             <pElem>/usr/local/include/player-2.0</pElem>
+            <pElem>/usr/include/SDL2</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
           <linkerLibItems>
             <linkerLibLibItem>playerc++</linkerLibLibItem>
+            <linkerOptionItem>-lSDL2</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -135,6 +139,10 @@
       <item path="Robot.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Robot.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SDL2Wrapper.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SDL2Wrapper.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -212,6 +220,10 @@
       <item path="Robot.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Robot.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="SDL2Wrapper.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="SDL2Wrapper.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

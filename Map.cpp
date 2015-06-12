@@ -478,3 +478,42 @@ SPosition CMap::PixelCoordToCellPosition(double fX, double fY) {
         dword dwCellY = (dword)floor(fY / PixelPerCell());
 	return SPosition(dwCellX, dwCellY);
 }
+
+dword CMap::GetMapWidth() {
+    return m_dwMapWidth;
+}
+
+dword CMap::GetMapHeight() {
+    return m_dwMapHeight;
+}
+
+void CMap::DrawMapState(SDL2Wrapper* sdl, bool flushImmediately) {
+    
+    for (dword dwY = 0; dwY < m_dwMapHeight; dwY++) {
+        for (dword dwX = 0; dwX < m_dwMapWidth; dwX++) {
+            DrawPixel(sdl, dwX, dwY, m_pRawMap[dwY * m_dwMapWidth + dwX]);
+        }
+    }
+    
+    if (flushImmediately) {
+        sdl->FlushChanges();
+    }
+}
+
+void CMap::DrawPixel(SDL2Wrapper* sdl, dword dwX, dword dwY, SPNGCell pixel) {
+    sdl->DrawPoint(dwX, dwY, pixel.bR, pixel.bG, pixel.bB, pixel.bAlpha);
+}
+
+void CMap::FillMapCellByCoord(SDL2Wrapper* sdl, dword dX, dword dY, byte R, byte G, byte B) {
+    FillMapCellByCellOffset(sdl, GetCellOffsetByCoord(dX, dY), R, G, B);
+}
+
+void CMap::FillMapCellByCellOffset(SDL2Wrapper* sdl, dword dwCellOffset, byte R, byte G, byte B)
+{
+    dword dwPixelOffset = GetCellStartingPixelByCellOffset(dwCellOffset);
+
+    dword dwX = dwPixelOffset % m_dwMapWidth;
+    dword dwY = (dwPixelOffset / m_dwMapWidth) * PixelPerCell();
+    
+    sdl->FillRectangle(dwX, dwY, PixelPerCell(), R, G, B, 255, false);
+}
