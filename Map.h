@@ -31,7 +31,7 @@ struct SPosition
 {
 	dword dwX;
 	dword dwY;
-        SPosition(): dwX(0), dwY(0) { }
+	SPosition(): dwX(0), dwY(0) { }
 	SPosition(dword dX, dword dY): dwX(dX), dwY(dY) { }
 };
 
@@ -39,8 +39,8 @@ class CMap
 {
 	dword m_dwMapWidth;
 	dword m_dwMapHeight;
-	dword m_dwPixelResolution;
-	dword m_dwGridResolution;
+	double m_dwPixelResolution;
+	double m_dwGridResolution;
 
 	SPNGCell *m_pRawMap;
 	SMapCell *m_pWeightedMap;
@@ -67,9 +67,9 @@ class CMap
 	void DumpMap(SPNGCell* pMap, dword dwWidth, dword dwHeight, const char* szFilename);
 	void DumpMap(vector<SPNGCell>& map, dword dwWidth, dword dwHeight, const char* szFilename);
         
-        // SDL2 Implementation
-        void DrawPixel(SDL2Wrapper* sdl, dword dwX, dword dwY, SPNGCell pixel);
-        void FillMapCellByCellOffset(SDL2Wrapper* sdl, dword dwCellOffset, byte R, byte G, byte B);
+	// SDL2 Implementation
+	void DrawPixel(SDL2Wrapper* sdl, dword dwX, dword dwY, SPNGCell pixel);
+	void FillMapCellByCellOffset(SDL2Wrapper* sdl, dword dwCellOffset, byte R, byte G, byte B);
 
 	public:
 		
@@ -80,18 +80,18 @@ class CMap
 
 	bool LoadMap(const char* szMapPath);
 	bool BlowMapObstacles(word wPixelRadius);
-	void SetResolutions(dword dwPixelResolution, dword dwGridResolution);
+	void SetResolutions(double dwPixelResolution, double dwGridResolution);
 	SMapCell* GetCellByPixelCoord(double fX, double fY);
 	SMapCell* GetMapCell(dword dX, dword dY);
 	void ColorCellByCoord(dword dX, dword dY, byte R, byte G, byte B);
 	void DumpMap(const char* szFilename);
 	SPosition PixelCoordToCellPosition(double fX, double fY);
-        dword GetMapWidth();
-        dword GetMapHeight();
+	dword GetMapWidth();
+	dword GetMapHeight();
         
-        // SDL2 Implementation
-        void DrawMapState(SDL2Wrapper* sdl, bool flushImmediately);
-        void FillMapCellByCoord(SDL2Wrapper* sdl, dword dX, dword dY, byte R, byte G, byte B);
+	// SDL2 Implementation
+	void DrawMapState(SDL2Wrapper* sdl, bool flushImmediately);
+	void FillMapCellByCoord(SDL2Wrapper* sdl, dword dX, dword dY, byte R, byte G, byte B);
 };
 
 #endif

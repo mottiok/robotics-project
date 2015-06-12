@@ -67,7 +67,7 @@ SPNGCell* CMap::GetPixelByCoord(dword dX, dword dY)
 }
 
 
-void CMap::SetResolutions(dword dwPixelResolution, dword dwGridResolution)
+void CMap::SetResolutions(double dwPixelResolution, double dwGridResolution)
 {
 	if (0 == dwPixelResolution || 0 == dwGridResolution)
 		return;
@@ -102,7 +102,7 @@ dword CMap::GetCellStartingPixelByCellOffset(dword dwCellOffset)
 	dword dwCellX = dwCellOffset % CellsInWidth();
 	dword dwCellY = dwCellOffset / CellsInWidth();
 
-	return ((dwCellY * CellsInWidth() * PixelPerCell()) + (dwCellX * PixelPerCell()));
+	return ((dwCellY * m_dwMapWidth * PixelPerCell()) + (dwCellX * PixelPerCell()));
 }	
 
 void CMap::BlowPixel(dword dwX, dword dwY, word wPixelRadius)
@@ -199,7 +199,7 @@ bool CMap::IsPassableCell(dword dwCellOffset)
 	dword dwPixelOffset = GetCellStartingPixelByCellOffset(dwCellOffset);
 
 	dword dwX = dwPixelOffset % m_dwMapWidth;
-	dword dwY = (dwPixelOffset / m_dwMapWidth) * PixelPerCell();
+	dword dwY = (dwPixelOffset / m_dwMapWidth);
 	dword dwCurrX = dwX, dwCurrY = dwY;
 
 	// Check all pixels in this cell
@@ -247,7 +247,7 @@ void CMap::ColorCell(dword dwCellOffset, byte R, byte G, byte B)
 	dword dwPixelOffset = GetCellStartingPixelByCellOffset(dwCellOffset);
 
 	dword dwX = dwPixelOffset % m_dwMapWidth;
-	dword dwY = (dwPixelOffset / m_dwMapWidth) * PixelPerCell();
+	dword dwY = (dwPixelOffset / m_dwMapWidth);
 	dword dwCurrX = dwX, dwCurrY = dwY;
 
 //	dword dwCellX = dwCellOffset % CellsInWidth();
@@ -513,7 +513,7 @@ void CMap::FillMapCellByCellOffset(SDL2Wrapper* sdl, dword dwCellOffset, byte R,
     dword dwPixelOffset = GetCellStartingPixelByCellOffset(dwCellOffset);
 
     dword dwX = dwPixelOffset % m_dwMapWidth;
-    dword dwY = (dwPixelOffset / m_dwMapWidth) * PixelPerCell();
+    dword dwY = (dwPixelOffset / m_dwMapWidth);
     
     sdl->FillRectangle(dwX, dwY, PixelPerCell(), R, G, B, 255, false);
 }
