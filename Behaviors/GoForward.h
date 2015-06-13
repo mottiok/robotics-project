@@ -11,20 +11,22 @@
 #include "Behavior.h"
 
 class GoForward: public Behavior {
+
+	bool HasStraightPath(Waypoint* pTarget);
 public:
-	GoForward(Robot* robot);
+	GoForward(Robot* robot, WaypointManager* waypoints, float fGridResolution) : Behavior(robot, waypoints, fGridResolution) {};
 
 	bool StartCondition() {
-		return _robot->IsForwardFree();
+		printf("Is it time to go forward? Is forward free: %u, are we en route to the waypoint? %u\n",
+			_robot->IsForwardFree(), HasStraightPath(_waypoints->CurrentWaypoint()));
+		return (_robot->IsForwardFree() && HasStraightPath(_waypoints->CurrentWaypoint()));
 	}
 
 	bool StopCondition() {
-		return !_robot->IsForwardFree();
+		return (!StartCondition());
 	}
 
-	void Action() {
-		_robot->SetSpeed(0.2, 0);
-	}
+	void Action();
 
 	virtual ~GoForward();
 };

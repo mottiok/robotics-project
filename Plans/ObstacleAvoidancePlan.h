@@ -13,7 +13,7 @@
 class ObstacleAvoidancePlan: public Plan {
 	vector<Behavior*> _behaviors;
 public:
-	ObstacleAvoidancePlan(Robot* robot);
+	ObstacleAvoidancePlan(Robot* robot, WaypointManager* waypoints, float fGridResolution);
 	virtual ~ObstacleAvoidancePlan();
 };
 

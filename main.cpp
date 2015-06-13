@@ -21,10 +21,7 @@ using namespace std;
 
 int main() {
 
-//	Robot robot("localhost", 6665);
-//	ObstacleAvoidancePlan plan(&robot);
-//	Manager manager(&robot, &plan);
-//	manager.Run();
+	Robot robot("localhost", 6665);
 
         CMap map;
 
@@ -55,6 +52,15 @@ int main() {
 //        map.ColorCellByCoord(goalCellPos.dwX, goalCellPos.dwY, 0, 255, 0);
 //        map.DumpMap("debug.png");
 //        return 0;
+
+	double dStartingAngle = 100;
+
+	// Stage starts counting from 90 degrees to the RIGHT if counting using an upright axis
+	// Positive angles are counted to the LEFT while negative ones to the RIGHT
+	// Meaning that for us to set the odometry as upright, we need to subtract 90 degrees...
+	dStartingAngle = dStartingAngle - 90;
+
+	robot.SetOdometryByPixelCoord(362.0, 305.0, dStartingAngle, map.GetPixelResolution());
 
         // Create planner and find the best path from start to goal position
         PathPlanner planner(&map);
@@ -93,6 +99,10 @@ int main() {
 
 		map.DumpMap("waypoint_path.png");
 #endif
+		ObstacleAvoidancePlan plan(&robot, &WpMgr, map.GetGridResolution());
+		Manager manager(&robot, &plan, &WpMgr);
+		manager.Run();
+
         }
         
         map.DrawMapState(&sdl, true);

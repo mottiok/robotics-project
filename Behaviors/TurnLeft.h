@@ -12,18 +12,25 @@
 
 class TurnLeft: public Behavior {
 public:
-	TurnLeft(Robot* robot);
+
+	TurnLeft(Robot* robot, WaypointManager* waypoints, float fGridResolution) : Behavior(robot, waypoints, fGridResolution) {};
 
 	bool StartCondition() {
-		return _robot->IsLeftFree();
+		Waypoint* pTarget = _waypoints->CurrentWaypoint();
+
+		printf("Time to turn left? Left is free: %u, Is Angle offset %f more than %f ? %u\n",
+			_robot->IsLeftFree(), CalcCurrWaypointAngleOffset(pTarget), MAX_STRAIGHT_LINE_ERROR,
+			(CalcCurrWaypointAngleOffset(pTarget) > MAX_STRAIGHT_LINE_ERROR));
+		return (_robot->IsLeftFree() && (CalcCurrWaypointAngleOffset(pTarget) > MAX_STRAIGHT_LINE_ERROR));
 	}
 
 	bool StopCondition() {
-		return _robot->IsForwardFree();
+		return (!StartCondition());
 	}
 
 	void Action() {
 		_robot->SetSpeed(0, 0.2);
+		Behavior::Action();
 	}
 
 	virtual ~TurnLeft();

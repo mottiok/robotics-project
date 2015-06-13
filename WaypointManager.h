@@ -1,8 +1,9 @@
 #ifndef WAYPOINT_MANAGER_H
 #define WAYPOINT_MANAGER_H
 
+#define WAYPOINT_RADIUS 3
 #define DEFAULT_WAYPOINT_RESOLUTION 4
-#define DEFAULT_WAYPOINT_ACCURACY (0.2F)
+#define DEFAULT_WAYPOINT_ACCURACY (0.1F)
 #include "Waypoint.h"
 #include "typedefs.h"
 #include "MapSearchNode.h"
@@ -16,7 +17,6 @@ class WaypointManager
 	Waypoint* m_pCurrWaypoint;
 
 	Waypoint* LinkNextWaypoint(MapSearchNode* pNode, Waypoint* pLast);
-	float CalcGradient(SPosition& from, SPosition& to);
 	dword FindNextSignificantNode(vector<MapSearchNode*>& vPath, dword dwStartNode, dword dwLimitNode, dword dwResolution, float fTestGradient, float fAccuracy);
 	
 public:
@@ -33,6 +33,7 @@ public:
 	Waypoint* GetStartWaypoint();
 	void InitWaypointTraversal();
 	Waypoint* TraverseWaypoint();
+	inline Waypoint* CurrentWaypoint() { return m_pCurrWaypoint; };
 };
 
 #endif

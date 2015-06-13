@@ -1,5 +1,4 @@
 #include "WaypointManager.h"
-#include <float.h>
 #include <cmath>
 
 WaypointManager::~WaypointManager()
@@ -10,14 +9,6 @@ WaypointManager::~WaypointManager()
 	}
 }
 
-float WaypointManager::CalcGradient(SPosition& from, SPosition& to)
-{
-	if (to.dwX == from.dwX)
-		return FLT_MAX;
-	else
-		return abs(((float)((signed)(to.dwY - from.dwY))) / ((float)((signed)(to.dwX - from.dwX))));
-}
-
 dword WaypointManager::FindNextSignificantNode(vector<MapSearchNode*>& vPath, dword dwStartNode, dword dwLimitNode, dword dwResolution, float fTestGradient, float fAccuracy)
 {
 	MapSearchNode* pTestNode = vPath[dwStartNode];
@@ -25,12 +16,12 @@ dword WaypointManager::FindNextSignificantNode(vector<MapSearchNode*>& vPath, dw
 	float fCurrentGradient;
 
 	// Begin traversing path nodes according to sample resolution
-	for (dwCurrNode = dwStartNode + 1; dwCurrNode < vPath.size() && dwCurrNode < dwLimitNode; dwCurrNode += dwResolution)
+	for (dwCurrNode = dwStartNode + dwResolution; dwCurrNode < vPath.size() && dwCurrNode < dwLimitNode; dwCurrNode += dwResolution)
 	{
 		// Calculate current gradient 
-		fCurrentGradient = CalcGradient(pTestNode->GetPosition(), vPath[dwCurrNode]->GetPosition());
+		fCurrentGradient = SPosition::CalcGradient(pTestNode->GetPosition(), vPath[dwCurrNode]->GetPosition());
 
-		/*printf("Comparing nodes %u (%u, %u) and %u (%u, %u), is gradient %f significant enough next to %f?\n",
+		/*printf("Comparing nodes %u (%u, %u) and %u (%u, %u), is gradient %f significant enough next to %f? ",
 			dwStartNode, pTestNode->GetXPos(), pTestNode->GetYPos(), 
 			dwCurrNode, vPath[dwCurrNode]->GetXPos(), vPath[dwCurrNode]->GetYPos(),
 			fCurrentGradient, fTestGradient);*/
@@ -38,8 +29,11 @@ dword WaypointManager::FindNextSignificantNode(vector<MapSearchNode*>& vPath, dw
 		// If gradient of line between last node and current changed enough
 		if (fCurrentGradient != fTestGradient && abs(fCurrentGradient - fTestGradient) >= fAccuracy)
 		{
+		//	printf("yes\n");
 			break;
 		}
+
+		//printf("no\n");
 	}
 
 	//printf("Next sig node from %u is %u\n", dwStartNode, dwCurrNode);
@@ -72,16 +66,25 @@ bool WaypointManager::SetPath(vector<MapSearchNode*>& vPath, dword dwResolution,
 	pLastWaypoint = LinkNextWaypoint(vPath[0], NULL);
 
 	// Initial lookup values
-	fLastGradient = CalcGradient(pLastWaypoint->GetPosition(), vPath[1]->GetPosition());
+	fLastGradient = SPosition::CalcGradient(pLastWaypoint->GetPosition(), vPath[1]->GetPosition());
 
 	// Begin searching for significant waypoints
 	for (dword dwLastNode = 1, dwCurrNode = FindNextSignificantNode(vPath, 0, vPath.size(), dwResolution, fLastGradient, fLinearAccuracy); 
 		   dwCurrNode < vPath.size(); 
 		   dwCurrNode = FindNextSignificantNode(vPath, dwCurrNode, vPath.size(), dwResolution, fLastGradient, fLinearAccuracy))
 	{
-		fCurrentGradient = CalcGradient(vPath[dwLastNode]->GetPosition(), vPath[dwCurrNode]->GetPosition());
+		fCurrentGradient = SPosition::CalcGradient(vPath[dwCurrNode - dwResolution]->GetPosition(), vPath[dwCurrNode]->GetPosition());
 		
-		fCurrentSubGradient = fCurrentGradient;
+		// Found a node where there's a difference, mark as waypoint
+		pLastWaypoint = LinkNextWaypoint(vPath[dwCurrNode], pLastWaypoint);
+
+		//printf("Setting new test gradient as that between %u and %u (%f)\n", dwCurrNode - dwResolution, dwCurrNode, fCurrentGradient);
+		
+		dwLastNode = dwCurrNode;
+		fLastGradient = fCurrentGradient;
+
+		/*
+		fCurrentSubGradient = fLastGradient;
 	
 		//printf("Locating all significant points in the section [%u-%u]\n", dwLastNode, dwCurrNode);
 
@@ -94,11 +97,8 @@ bool WaypointManager::SetPath(vector<MapSearchNode*>& vPath, dword dwResolution,
 			pLastWaypoint = LinkNextWaypoint(vPath[dwCurrSubNode], pLastWaypoint);
 
 			// Update next subsection gradient to look up
-			fCurrentSubGradient = CalcGradient(vPath[dwCurrSubNode-1]->GetPosition(), vPath[dwCurrSubNode]->GetPosition());
-		}
-	
-		dwLastNode = dwCurrNode;
-		fLastGradient = fCurrentGradient;
+			fCurrentSubGradient = SPosition::CalcGradient(vPath[dwCurrSubNode-1]->GetPosition(), vPath[dwCurrSubNode]->GetPosition());
+		}*/
 	}
 
 	// Set the last node as a waypoint too, of course

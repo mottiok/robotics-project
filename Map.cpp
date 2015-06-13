@@ -521,3 +521,7 @@ void CMap::FillMapCellByCellOffset(SDL2Wrapper* sdl, dword dwCellOffset, byte R,
 double CMap::GetPixelResolution() {
 	return m_dwPixelResolution;
 }
+
+double CMap::GetGridResolution() {
+	return m_dwGridResolution;
+}

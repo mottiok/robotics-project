@@ -15,9 +15,11 @@
 class Manager {
 	Robot* _robot;
 	Plan* _plan;
+	WaypointManager* _waypoints;
+
 	Behavior* _currentBehavior;
 public:
-	Manager(Robot* robot, Plan* plan);
+	Manager(Robot* robot, Plan* plan, WaypointManager* waypoints);
 	void Run();
 	virtual ~Manager();
 };
