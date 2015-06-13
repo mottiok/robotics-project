@@ -88,6 +88,7 @@ class CMap
 	SPosition PixelCoordToCellPosition(double fX, double fY);
 	dword GetMapWidth();
 	dword GetMapHeight();
+	double GetPixelResolution();
         
 	// SDL2 Implementation
 	void DrawMapState(SDL2Wrapper* sdl, bool flushImmediately);

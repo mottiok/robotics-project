@@ -17,6 +17,8 @@ Robot::Robot(const char* ip, int port) {
 	// Refresh Player's reading BUG
 	for (int i=0; i<15; i++)
 		Read();
+	
+	_dX = _dY = _dYaw = 0;
 }
 
 Robot::~Robot() {

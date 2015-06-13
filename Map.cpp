@@ -517,3 +517,7 @@ void CMap::FillMapCellByCellOffset(SDL2Wrapper* sdl, dword dwCellOffset, byte R,
     
     sdl->FillRectangle(dwX, dwY, PixelPerCell(), R, G, B, 255, false);
 }
+
+double CMap::GetPixelResolution() {
+	return m_dwPixelResolution;
+}
