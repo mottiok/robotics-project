@@ -95,7 +95,7 @@ struct SPosition
 		float fMapBearing = ((fNecessaryAngle < 0) ? (2 * M_PI - fNecessaryAngle) : (fNecessaryAngle)) - (M_PI / 2);
 		NORMALIZE_ANGLE(fMapBearing);
 
-		printf("Bearing %f needs to be fixed to %f\n", angle, fMapBearing);
+//		printf("Bearing %f needs to be fixed to %f\n", angle, fMapBearing);
 
 	//	printf("Gradient from (%u, %u) to (%u, %u) is %f rads with wanted %f, off by %f!\n", 
 	//		from.dwX, from.dwY, to.dwX, to.dwY, fNecessaryAngle, angle, angle - fNecessaryAngle);
@@ -103,7 +103,7 @@ struct SPosition
 		float fLeftCost = CalcLeftAngleCost(angle, fMapBearing);
 		float fRightCost = CalcRightAngleCost(angle, fMapBearing);
 
-		printf("Right cost: %f, left cost: %f\n", fRightCost, fLeftCost);
+//		printf("Right cost: %f, left cost: %f\n", fRightCost, fLeftCost);
 
 		// If turning right costs less, return it as a negative number
 		if (fRightCost < fLeftCost)

@@ -12,6 +12,7 @@
 #include "../Robot.h"
 #include "../WaypointManager.h"
 #include <vector>
+#include "../Convert.h"
 
 #define MAX_STRAIGHT_LINE_ERROR (M_PI/12) // 15 degrees either side
 
@@ -22,33 +23,38 @@ class Behavior {
 protected:
 	Robot* _robot;
 	WaypointManager* _waypoints;
-	float _gridResolution;
+	
+	double _pixelResolution;
+	double _mapWidth;
+	double _mapHeight;
 
 	float CalcCurrWaypointAngleOffset(Waypoint* pTarget)
 	{
 		SPosition sCurrPos;
-		sCurrPos.dwX = floor(_robot->GetX() / (_gridResolution / 100));
-		sCurrPos.dwY = floor(_robot->GetY() / (_gridResolution / 100));
+		sCurrPos.dwX = Convert::RobotRelativeXPosToPixelXCoord(_robot->GetX(), CM_TO_METERS(_pixelResolution), _mapWidth);
+		sCurrPos.dwY = Convert::RobotRelativeYPosToPixelYCoord(_robot->GetY(), CM_TO_METERS(_pixelResolution), _mapHeight);
 
 		float fGradientError = (SPosition::CalcGradientAngleOffset(sCurrPos, pTarget->GetPosition(), _robot->GetYaw()));
 
-		printf("Robo claims it's at (%u, %u) with bearing %f headed for (%u, %u), off by %f\n", sCurrPos.dwX, sCurrPos.dwY, _robot->GetYaw(), pTarget->GetPosition().dwX, pTarget->GetPosition().dwY, fGradientError);
+//		printf("Robo claims it's at (%u, %u) with bearing %f headed for (%u, %u), off by %f\n", sCurrPos.dwX, sCurrPos.dwY, _robot->GetYaw(), pTarget->GetPosition().dwX, pTarget->GetPosition().dwY, fGradientError);
 
 		return fGradientError;
 	}
 public:
-	Behavior(Robot* robot, WaypointManager* waypoints, float fGridResolution) : _robot(robot), _waypoints(waypoints), _gridResolution(fGridResolution) {};
+	Behavior(Robot* robot, WaypointManager* waypoints, double pixelResolution, double mapWidth, double mapHeight) :
+						_robot(robot), _waypoints(waypoints), _pixelResolution(pixelResolution), _mapWidth(mapWidth), _mapHeight(mapHeight) {};
+						
 	virtual bool StartCondition() = 0;
 	virtual bool StopCondition() = 0;
 	virtual void Action()
 	{
 		SPosition sCurrPos;
-		sCurrPos.dwX = floor(_robot->GetX() / (_gridResolution / 100));
-		sCurrPos.dwY = floor(_robot->GetY() / (_gridResolution / 100));
+		sCurrPos.dwX = Convert::RobotRelativeXPosToPixelXCoord(_robot->GetX(), CM_TO_METERS(_pixelResolution), _mapWidth);
+		sCurrPos.dwY = Convert::RobotRelativeYPosToPixelYCoord(_robot->GetY(), CM_TO_METERS(_pixelResolution), _mapHeight);
 
-		printf("Time to traverse waypoint? Is %f less than %u?\n", 
-			SPosition::CalcDistance(sCurrPos, _waypoints->CurrentWaypoint()->GetPosition()),
-			WAYPOINT_RADIUS);
+//		printf("Time to traverse waypoint? Is %f less than %u?\n", 
+//			SPosition::CalcDistance(sCurrPos, _waypoints->CurrentWaypoint()->GetPosition()),
+//			WAYPOINT_RADIUS);
 
 		if (SPosition::CalcDistance(sCurrPos, _waypoints->CurrentWaypoint()->GetPosition()) < WAYPOINT_RADIUS)
 		{

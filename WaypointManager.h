@@ -1,9 +1,7 @@
 #ifndef WAYPOINT_MANAGER_H
 #define WAYPOINT_MANAGER_H
 
-#define WAYPOINT_RADIUS 3
-#define DEFAULT_WAYPOINT_RESOLUTION 4
-#define DEFAULT_WAYPOINT_ACCURACY (0.1F)
+#include "Configuration.h"
 #include "Waypoint.h"
 #include "typedefs.h"
 #include "MapSearchNode.h"

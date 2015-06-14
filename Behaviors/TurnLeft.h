@@ -13,14 +13,15 @@
 class TurnLeft: public Behavior {
 public:
 
-	TurnLeft(Robot* robot, WaypointManager* waypoints, float fGridResolution) : Behavior(robot, waypoints, fGridResolution) {};
+	TurnLeft(Robot* robot, WaypointManager* waypoints, double pixelResolution, double mapWidth, double mapHeight) : 
+				Behavior(robot, waypoints, pixelResolution, mapWidth, mapHeight) {};
 
 	bool StartCondition() {
 		Waypoint* pTarget = _waypoints->CurrentWaypoint();
 
-		printf("Time to turn left? Left is free: %u, Is Angle offset %f more than %f ? %u\n",
-			_robot->IsLeftFree(), CalcCurrWaypointAngleOffset(pTarget), MAX_STRAIGHT_LINE_ERROR,
-			(CalcCurrWaypointAngleOffset(pTarget) > MAX_STRAIGHT_LINE_ERROR));
+//		printf("Time to turn left? Left is free: %u, Is Angle offset %f more than %f ? %u\n",
+//			_robot->IsLeftFree(), CalcCurrWaypointAngleOffset(pTarget), MAX_STRAIGHT_LINE_ERROR,
+//			(CalcCurrWaypointAngleOffset(pTarget) > MAX_STRAIGHT_LINE_ERROR));
 		return (_robot->IsLeftFree() && (CalcCurrWaypointAngleOffset(pTarget) > MAX_STRAIGHT_LINE_ERROR));
 	}
 

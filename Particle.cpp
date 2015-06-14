@@ -6,21 +6,29 @@
  */
 
 #include "Particle.h"
+#include "Debug.h"
 
 Particle::Particle(double dX, double dY, double dYaw, double dBel) {
 	_dX = dX;
 	_dY = dY;
 	_dYaw = dYaw;
 	_dBel = dBel;
+	
+	_lifes = PARTICLE_LIFES;
+	_age = 1;
 }
 
 Particle::~Particle() {
 }
 
 Particle* Particle::CreateChild() {
-	double newX = _dX + Randomize(-EXPANSION_RADIUS, EXPANSION_RADIUS);
-	double newY = _dY + Randomize(-EXPANSION_RADIUS, EXPANSION_RADIUS);
-	double newYaw = _dYaw + Randomize(-EXPANSION_RADIUS, EXPANSION_RADIUS);
+	return CreateChild(EXPANSION_RADIUS);
+}
+
+Particle* Particle::CreateChild(double dExpansionRadius) {
+	double newX = _dX + Randomize(-dExpansionRadius, dExpansionRadius);
+	double newY = _dY + Randomize(-dExpansionRadius, dExpansionRadius);
+	double newYaw = _dYaw + Randomize(-dExpansionRadius, dExpansionRadius);
 	return new Particle(newX, newY, newYaw, 1);
 }
 
@@ -112,6 +120,12 @@ double Particle::ProbabilityByLaserScan(double dX, double dY, double dYaw, CMap*
 			dObstacleX = Convert::RobotRelativeXPosToPixelXCoord(dObstacleX, resolution, mapWidth);
 			dObstacleY = Convert::RobotRelativeYPosToPixelYCoord(dObstacleY, resolution, mapHeight);
 			
+			// Check bounds before actually trying to get cell
+			if (dObstacleX < 0 || dObstacleX >= map->GetMapWidth() ||
+					dObstacleY < 0 || dObstacleY >= map->GetMapHeight()) {
+				continue;
+			}
+			
 			SPosition cellPosition = map->PixelCoordToCellPosition(dObstacleX, dObstacleY);
 			SMapCell* cell = map->GetMapCell(cellPosition.dwX, cellPosition.dwY);
 			
@@ -125,3 +139,60 @@ double Particle::ProbabilityByLaserScan(double dX, double dY, double dYaw, CMap*
 	
 	return accuracy;
 }
+
+// TODO: This is the same as above (almost) - try to combine
+void Particle::DrawLaserScan(CMap* map, SDL2Wrapper* sdl, LaserProxy* lp) {
+	int scans = lp->GetCount();
+	double maxRange = lp->GetMaxRange();
+	
+	for(int i=0; i<scans; i++) {
+		double range = lp->GetRange(i);
+		
+		if (range < maxRange) {
+			
+			// Calculate obstacle position
+			double bearing = lp->GetBearing(i);
+			double dObstacleX = GetX() + range * cos(GetYaw() + bearing);
+			double dObstacleY = GetY() + range * sin(GetYaw() + bearing);
+			
+			// Convert relative obstacle position to our valid map position
+			double resolution = CM_TO_METERS(map->GetPixelResolution());
+			double mapWidth = map->GetMapWidth();
+			double mapHeight = map->GetMapHeight();
+			
+			dObstacleX = Convert::RobotRelativeXPosToPixelXCoord(dObstacleX, resolution, mapWidth);
+			dObstacleY = Convert::RobotRelativeYPosToPixelYCoord(dObstacleY, resolution, mapHeight);
+			
+			// Check bounds before actually trying to get cell
+			if (dObstacleX < 0 || dObstacleX >= map->GetMapWidth() ||
+					dObstacleY < 0 || dObstacleY >= map->GetMapHeight()) {
+				continue;
+			}
+			
+			SPosition cellPosition = map->PixelCoordToCellPosition(dObstacleX, dObstacleY);
+			SMapCell* cell = map->GetMapCell(cellPosition.dwX, cellPosition.dwY);
+
+			if (!cell->fIsPassable) {
+				sdl->DrawPoint(dObstacleX, dObstacleY, RED_RGB_FORMAT, 255);
+			}
+		}
+	}
+}
+
+void Particle::IncreaseAge() {
+	_age++;
+}
+
+int Particle::Age() {
+	return _age;
+}
+
+
+void Particle::DecreaseLife() {
+	_lifes--;
+}
+
+bool Particle::IsDead() {
+	return _lifes <= 0;
+}
+

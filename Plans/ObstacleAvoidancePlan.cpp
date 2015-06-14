@@ -10,10 +10,10 @@
 #include "../Behaviors/TurnRight.h"
 #include "../Behaviors/TurnLeft.h"
 
-ObstacleAvoidancePlan::ObstacleAvoidancePlan(Robot* robot, WaypointManager* waypoints, float fGridResolution):Plan(robot) {
-	GoForward* forward = new GoForward(robot, waypoints, fGridResolution);
-	TurnRight* right = new TurnRight(robot, waypoints, fGridResolution);
-	TurnLeft* left = new TurnLeft(robot, waypoints, fGridResolution);
+ObstacleAvoidancePlan::ObstacleAvoidancePlan(Robot* robot, WaypointManager* waypoints, double pixelResolution, double mapWidth, double mapHeight):Plan(robot) {
+	GoForward* forward = new GoForward(robot, waypoints, pixelResolution, mapWidth, mapHeight);
+	TurnRight* right = new TurnRight(robot, waypoints, pixelResolution, mapWidth, mapHeight);
+	TurnLeft* left = new TurnLeft(robot, waypoints, pixelResolution, mapWidth, mapHeight);
 
 	forward->AddBehavior(right);
 	forward->AddBehavior(left);

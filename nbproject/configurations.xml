@@ -94,7 +94,6 @@
           <linkerLibItems>
             <linkerLibLibItem>playerc++</linkerLibLibItem>
             <linkerOptionItem>-lSDL2</linkerOptionItem>
-            <linkerOptionItem>-lSDL2_image</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

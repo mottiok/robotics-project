@@ -19,6 +19,7 @@ Manager::Manager(Robot* robot, Plan* plan, WaypointManager* waypoints, CMap* map
 
 void Manager::Run() {
 	_robot->ReadAndUpdateLocalization();
+	_map->DrawMapState(_sdl, true);
 	
 	_waypoints->InitWaypointTraversal();
 	_waypoints->TraverseWaypoint();
@@ -36,10 +37,12 @@ void Manager::Run() {
 	
 	while(_currentBehavior != NULL) {
 		while (!_currentBehavior->StopCondition()) {
+			_map->DrawMapState(_sdl, false);
 			_currentBehavior->Action();
 			_robot->ReadAndUpdateLocalization();
+			_sdl->FlushChanges();
 		}
-		printf("Changing behavior!\n");
+//		printf("Changing behavior!\n");
 		_currentBehavior = _currentBehavior->NextBehavior();
 		_robot->ReadAndUpdateLocalization();
 	}

@@ -16,6 +16,7 @@ using namespace std;
 #include "Map.h"
 #include "Convert.h"
 #include "Configuration.h"
+#include "Debug.h"
 
 class LocalizationManager {
 	CMap* _map;
@@ -32,11 +33,12 @@ class LocalizationManager {
 	
 	// Fill in the childs vector with new childs from the parent particle
 	void BreedParticle(Particle* particle, int dwChildCount, vector<Particle*>& childs);
+	void BreedParticle(Particle* particle, int dwChildCount, double dExpansionRadius, vector<Particle*>& childs);
 	
 	// Transfer childs vector to the main particles vector as new future parents
 	void TransferChildsToParticles(vector<Particle*> childs);
 public:
-	LocalizationManager(CMap* map);
+	LocalizationManager(CMap* map, SDL2Wrapper* sdl);
 	virtual ~LocalizationManager();
 	
 	// Update all particles with new position and breed or kill if necessary
@@ -47,6 +49,7 @@ public:
 	
 	// Create new particle and breed him with max childs count
 	bool CreateParticle(double dX, double dY, double dYaw, double dBel);
+	bool CreateParticle(double dX, double dY, double dYaw, double dBel, double dExpansionRadius, int childsCount);
 private:
 
 };
