@@ -30,7 +30,6 @@ public:
 
 	void Action() {
 		_robot->SetSpeed(0, 0.2);
-		Behavior::Action();
 	}
 
 	virtual ~TurnLeft();
