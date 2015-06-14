@@ -11,6 +11,8 @@
 #include "Robot.h"
 #include "Behaviors/Behavior.h"
 #include "Plans/Plan.h"
+#include "Map.h"
+#include "SDL2Wrapper.h"
 
 class Manager {
 	Robot* _robot;
@@ -18,8 +20,10 @@ class Manager {
 	WaypointManager* _waypoints;
 
 	Behavior* _currentBehavior;
+	CMap* _map;
+	SDL2Wrapper* _sdl;
 public:
-	Manager(Robot* robot, Plan* plan, WaypointManager* waypoints);
+	Manager(Robot* robot, Plan* plan, WaypointManager* waypoints, CMap* map, SDL2Wrapper* sdl);
 	void Run();
 	virtual ~Manager();
 };

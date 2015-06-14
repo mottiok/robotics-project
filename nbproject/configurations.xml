@@ -34,18 +34,27 @@
         <itemPath>Plans/Plan.cpp</itemPath>
         <itemPath>Plans/Plan.h</itemPath>
       </logicalFolder>
+      <itemPath>Configuration.h</itemPath>
+      <itemPath>Convert.h</itemPath>
+      <itemPath>Debug.h</itemPath>
+      <itemPath>LocalizationManager.cpp</itemPath>
+      <itemPath>LocalizationManager.h</itemPath>
       <itemPath>Manager.cpp</itemPath>
       <itemPath>Manager.h</itemPath>
       <itemPath>Map.cpp</itemPath>
       <itemPath>Map.h</itemPath>
       <itemPath>MapSearchNode.cpp</itemPath>
       <itemPath>MapSearchNode.h</itemPath>
+      <itemPath>Particle.cpp</itemPath>
+      <itemPath>Particle.h</itemPath>
       <itemPath>PathPlanner.cpp</itemPath>
       <itemPath>PathPlanner.h</itemPath>
       <itemPath>Robot.cpp</itemPath>
       <itemPath>Robot.h</itemPath>
       <itemPath>SDL2Wrapper.cpp</itemPath>
       <itemPath>SDL2Wrapper.h</itemPath>
+      <itemPath>WaypointManager.cpp</itemPath>
+      <itemPath>WaypointManager.h</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>typedefs.h</itemPath>
     </logicalFolder>
@@ -85,6 +94,7 @@
           <linkerLibItems>
             <linkerLibLibItem>playerc++</linkerLibLibItem>
             <linkerOptionItem>-lSDL2</linkerOptionItem>
+            <linkerOptionItem>-lSDL2_image</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -104,6 +114,10 @@
       </item>
       <item path="Behaviors/TurnRight.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Configuration.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Convert.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Debug.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Libraries/fsa.h" ex="false" tool="3" flavor2="0">
@@ -113,6 +127,10 @@
       <item path="Libraries/lodepng.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Libraries/stlastar.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LocalizationManager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LocalizationManager.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Manager.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -125,6 +143,10 @@
       <item path="MapSearchNode.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MapSearchNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Particle.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Particle.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PathPlanner.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -145,8 +167,6 @@
       <item path="SDL2Wrapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SDL2Wrapper.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Waypoint.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="WaypointManager.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -193,6 +213,10 @@
       </item>
       <item path="Behaviors/TurnRight.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Configuration.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Convert.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Debug.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Libraries/fsa.h" ex="false" tool="3" flavor2="0">
@@ -202,6 +226,10 @@
       <item path="Libraries/lodepng.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Libraries/stlastar.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LocalizationManager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="LocalizationManager.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Manager.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -214,6 +242,10 @@
       <item path="MapSearchNode.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MapSearchNode.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Particle.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Particle.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PathPlanner.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -234,8 +266,6 @@
       <item path="SDL2Wrapper.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SDL2Wrapper.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Waypoint.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="WaypointManager.cpp" ex="false" tool="1" flavor2="0">
       </item>

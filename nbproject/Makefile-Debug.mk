@@ -40,9 +40,11 @@ OBJECTFILES= \
 	${OBJECTDIR}/Behaviors/TurnLeft.o \
 	${OBJECTDIR}/Behaviors/TurnRight.o \
 	${OBJECTDIR}/Libraries/lodepng.o \
+	${OBJECTDIR}/LocalizationManager.o \
 	${OBJECTDIR}/Manager.o \
 	${OBJECTDIR}/Map.o \
 	${OBJECTDIR}/MapSearchNode.o \
+	${OBJECTDIR}/Particle.o \
 	${OBJECTDIR}/PathPlanner.o \
 	${OBJECTDIR}/Plans/ObstacleAvoidancePlan.o \
 	${OBJECTDIR}/Plans/Plan.o \
@@ -66,7 +68,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lplayerc++ -lSDL2
+LDLIBSOPTIONS=-lplayerc++ -lSDL2 -lSDL2_image
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -101,6 +103,11 @@ ${OBJECTDIR}/Libraries/lodepng.o: Libraries/lodepng.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Libraries/lodepng.o Libraries/lodepng.cpp
 
+${OBJECTDIR}/LocalizationManager.o: LocalizationManager.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LocalizationManager.o LocalizationManager.cpp
+
 ${OBJECTDIR}/Manager.o: Manager.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -115,6 +122,11 @@ ${OBJECTDIR}/MapSearchNode.o: MapSearchNode.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MapSearchNode.o MapSearchNode.cpp
+
+${OBJECTDIR}/Particle.o: Particle.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/local/include/player-2.0 -I/usr/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Particle.o Particle.cpp
 
 ${OBJECTDIR}/PathPlanner.o: PathPlanner.cpp 
 	${MKDIR} -p ${OBJECTDIR}

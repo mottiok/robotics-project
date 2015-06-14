@@ -33,7 +33,6 @@ void PathPlanner::SearchPath(dword& searchState, int& searchSteps) {
 #ifdef DRAW_ASTAR_EXPANSION
         MapSearchNode *node = _aStarAlgorithm->GetOpenListStart();
         while (node) {
-
             _map->ColorCellByCoord(node->GetXPos(), node->GetYPos(), ASTAR_EXPANSION_COLOR);
             node = _aStarAlgorithm->GetOpenListNext();
         }

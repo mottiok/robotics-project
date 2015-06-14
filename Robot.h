@@ -10,76 +10,53 @@
 
 #include <libplayerc++/playerc++.h>
 using namespace PlayerCc;
-#include <cmath>
+
+#include "LocalizationManager.h"
+#include "Convert.h"
 
 class Robot {
 	PlayerClient* _pc;
 	Position2dProxy* _pp;
 	LaserProxy* _lp;
+	LocalizationManager* _localization;
+	
 	double _dX;
 	double _dY;
 	double _dYaw;
+	
+	void UpdateLocalization();
+	void Read();
+	double SetPosition(double dX, double dY, double dYaw, bool setOdemetry);
+	void SetOdemetry(double dX, double dY, double dYaw);
+	
 public:
-	Robot(const char* ip, int port);
-
-	void Read() {
-		_pc->Read();
-		
-		// Update robot position using the delta from last read
-		_dX += _pp->GetXPos();
-		_dY += _pp->GetYPos() * -1; // TODO: Check this in real world
-		_dYaw = _pp->GetYaw();
-		_pp->SetOdometry(0, 0, _dYaw);
-	}
-	
-	void SetOdometryByPixelCoord(double dX, double dY, double dYaw, double dMapResolution) {
-		_dX = dX * (dMapResolution / 100);
-		_dY = dY * (dMapResolution / 100);
-		_dYaw = DTOR(dYaw);
-		_pp->SetOdometry(0, 0, _dYaw);
-	}
-	
-	double GetX() {
-		return _dX;
-	}
-	
-	double GetY() {
-		return _dY;
-	}
-	
-	double GetYaw() {
-		return _dYaw;
-	}
-
-	void SetSpeed(double aXSpeed, double aYawSpeed) {
-		_pp->SetSpeed(aXSpeed, aYawSpeed);
-	}
-
-	bool IsForwardFree() {
-		if (((*_lp)[332]) > 0.7) {
-			return true;
-		}
-
-		return false;
-	}
-
-	bool IsRightFree() {
-		if (((*_lp)[50]) > 0.7) {
-			return true;
-		}
-
-		return false;
-	}
-
-	bool IsLeftFree() {
-		if (((*_lp)[615]) > 0.7) {
-			return true;
-		}
-
-		return false;
-	}
-
+	Robot(const char* ip, int port, LocalizationManager* localization);
 	virtual ~Robot();
+	
+	void ReadAndUpdateLocalization();
+	
+	/*
+	 * Set robot relative odometry by pixel coordinates and resolution in CM
+	 * The robot's odemetry in meters and relative to X and Y axles that positioned in the center of the map
+	 * and not top left corner so convert methods needed to calculate proper positions
+	*/ 
+	void SetOdometryByPixelCoord(double dX, double dY, double dYaw, double resolution, double mapWidth, double mapHeight);
+	
+	/*
+	 * All Accessors return relative robot position without any conversions so be caution
+	 * To convert to pixel coordinates use:
+	 *		Convert::RobotRelativeXPosToPixelXCoord
+	 *		Convert::RobotRelativeYPosToPixelYCoord
+	 */
+	double GetX();
+	double GetY();
+	double GetYaw();
+	
+	void SetSpeed(double aXSpeed, double aYawSpeed);
+
+	bool IsForwardFree();
+	bool IsRightFree();
+	bool IsLeftFree();
 };
 
 #endif /* ROBOT_H_ */

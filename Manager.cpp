@@ -6,16 +6,19 @@
  */
 
 #include "Manager.h"
+#include "Debug.h"
 
-Manager::Manager(Robot* robot, Plan* plan, WaypointManager* waypoints) {
+Manager::Manager(Robot* robot, Plan* plan, WaypointManager* waypoints, CMap* map, SDL2Wrapper* sdl) {
 	_robot = robot;
 	_plan = plan;
 	_waypoints = waypoints;
+	_map = map;
+	_sdl = sdl;
 	_currentBehavior = plan->StartPointBehavior();
 }
 
 void Manager::Run() {
-	_robot->Read();
+	_robot->ReadAndUpdateLocalization();
 	
 	_waypoints->InitWaypointTraversal();
 	_waypoints->TraverseWaypoint();
@@ -29,17 +32,16 @@ void Manager::Run() {
 			return;
 	}
 
-//	_currentBehavior->Action();
-
+	_currentBehavior->Action();
+	
 	while(_currentBehavior != NULL) {
 		while (!_currentBehavior->StopCondition()) {
 			_currentBehavior->Action();
-			_robot->Read();
+			_robot->ReadAndUpdateLocalization();
 		}
 		printf("Changing behavior!\n");
 		_currentBehavior = _currentBehavior->NextBehavior();
-
-		_robot->Read();
+		_robot->ReadAndUpdateLocalization();
 	}
 }
 
