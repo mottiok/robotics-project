@@ -9,10 +9,12 @@
 #define	SDL2WRAPPER_H
 
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
 
 class SDL2Wrapper {
     SDL_Window* _window;
     SDL_Renderer* _renderer;
+	SDL_Texture* _texture;
 public:
     SDL2Wrapper();
     virtual ~SDL2Wrapper();
@@ -25,6 +27,7 @@ public:
     void FlushChanges();
     void FlushChanges(int ms);
     void Delay(int ms);
+	void LoadBackground(const char* filename, bool flushImmediately);
 private:
 
 };

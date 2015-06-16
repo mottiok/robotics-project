@@ -11,10 +11,12 @@
 SDL2Wrapper::SDL2Wrapper() {
     _window = NULL;
     _renderer = NULL;
+	_texture = NULL;
 }
 
 SDL2Wrapper::~SDL2Wrapper() {
-    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyTexture(_texture);
+	SDL_DestroyRenderer(_renderer);
     SDL_DestroyWindow(_window);
 }
 
@@ -65,7 +67,12 @@ void SDL2Wrapper::FlushChanges() {
 void SDL2Wrapper::FlushChanges(int ms) {
     SDL_Event event;
     SDL_PollEvent(&event);
+	
     SDL_RenderPresent(_renderer);
+	
+	if (_texture != NULL) {
+		SDL_RenderCopy(_renderer, _texture, NULL, NULL);
+	}
     
     if (ms > 0) {
         Delay(ms);
@@ -74,4 +81,16 @@ void SDL2Wrapper::FlushChanges(int ms) {
 
 void SDL2Wrapper::Delay(int ms) {
     SDL_Delay(ms);
+}
+
+void SDL2Wrapper::LoadBackground(const char* filename, bool flushImmediately) {
+	SDL_Surface* surface = IMG_Load(filename);
+	_texture = SDL_CreateTextureFromSurface(_renderer, surface);
+	SDL_FreeSurface(surface);
+	
+	SDL_RenderCopy(_renderer, _texture, NULL, NULL);
+	
+	if (flushImmediately) {
+		FlushChanges();
+	}
 }
