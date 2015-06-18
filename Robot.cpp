@@ -70,7 +70,7 @@ void Robot::SetSpeed(double aXSpeed, double aYawSpeed) {
 }
 
 bool Robot::IsForwardFree() {
-	if (((*_lp)[332]) > 0.8 && ((*_lp)[280]) > 0.8 && ((*_lp)[384]) > 0.8) {
+	if (((*_lp)[332]) > 0.35 && ((*_lp)[280]) > 0.35 && ((*_lp)[384]) > 0.35) {
 		return true;
 	}
 
@@ -78,18 +78,18 @@ bool Robot::IsForwardFree() {
 }
 
 bool Robot::IsRightFree() {
-	if (((*_lp)[166]) > 0.8) {
+	if (((*_lp)[166]) > 0.35) {
 		return true;
 	}
-
+	printf("Cannot turn right! R: %f\n", (*_lp)[166]);
 	return false;
 }
 
 bool Robot::IsLeftFree() {
-	if (((*_lp)[498]) > 0.8) {
+	if (((*_lp)[498]) > 0.35) {
 		return true;
 	}
-
+	printf("Cannot turn left! R: %f\n", (*_lp)[498]);
 	return false;
 }
 

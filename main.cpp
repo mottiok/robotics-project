@@ -75,7 +75,7 @@ int main() {
 		LocalizationManager localization(&map, &sdl);
 		Robot robot("localhost", 6665, &localization);
 		robot.SetOdometryByPixelCoord(startX, startY, startYaw, map.GetPixelResolution(), map.GetMapWidth(), map.GetMapHeight());
-		ObstacleAvoidancePlan plan(&robot, &WpMgr, map.GetPixelResolution(), map.GetMapWidth(), map.GetMapHeight());
+		ObstacleAvoidancePlan plan(&robot, &WpMgr, map.GetPixelResolution(), map.GetGridResolution(), map.GetMapWidth(), map.GetMapHeight());
 		
 		Manager manager(&robot, &plan, &WpMgr, &map, &sdl);
 		manager.Run();

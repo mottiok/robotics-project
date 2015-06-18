@@ -13,8 +13,8 @@
 class TurnLeft: public Behavior {
 public:
 
-	TurnLeft(Robot* robot, WaypointManager* waypoints, double pixelResolution, double mapWidth, double mapHeight) : 
-				Behavior(robot, waypoints, pixelResolution, mapWidth, mapHeight) {};
+	TurnLeft(Robot* robot, WaypointManager* waypoints, double pixelResolution, double gridResolution, double mapWidth, double mapHeight) : 
+				Behavior(robot, waypoints, pixelResolution, gridResolution, mapWidth, mapHeight) {};
 
 	bool StartCondition() {
 		Waypoint* pTarget = _waypoints->CurrentWaypoint();

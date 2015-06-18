@@ -13,8 +13,8 @@
 class TurnRight: public Behavior {
 public:
 
-	TurnRight(Robot* robot, WaypointManager* waypoints, double pixelResolution, double mapWidth, double mapHeight) : 
-				Behavior(robot, waypoints, pixelResolution, mapWidth, mapHeight) {};
+	TurnRight(Robot* robot, WaypointManager* waypoints, double pixelResolution, double gridResolution, double mapWidth, double mapHeight) : 
+				Behavior(robot, waypoints, pixelResolution, gridResolution, mapWidth, mapHeight) {};
 
 	bool StartCondition() {
 		Waypoint* pTarget = _waypoints->CurrentWaypoint();

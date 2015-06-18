@@ -92,25 +92,28 @@ struct SPosition
 		float fNecessaryAngle = atan2(dY, dX);
 
 		// tan counts from -90 degrees by our map bearing with the wrong sign
-		float fMapBearing = ((fNecessaryAngle < 0) ? (2 * M_PI - fNecessaryAngle) : (fNecessaryAngle)) - (M_PI / 2);
+		float fMapBearing = ((fNecessaryAngle < 0) ? (2 * M_PI - fNecessaryAngle) : (fNecessaryAngle));// - (M_PI / 2);
 		NORMALIZE_ANGLE(fMapBearing);
 
 //		printf("Bearing %f needs to be fixed to %f\n", angle, fMapBearing);
-
-	//	printf("Gradient from (%u, %u) to (%u, %u) is %f rads with wanted %f, off by %f!\n", 
-	//		from.dwX, from.dwY, to.dwX, to.dwY, fNecessaryAngle, angle, angle - fNecessaryAngle);
 
 		float fLeftCost = CalcLeftAngleCost(angle, fMapBearing);
 		float fRightCost = CalcRightAngleCost(angle, fMapBearing);
 
 //		printf("Right cost: %f, left cost: %f\n", fRightCost, fLeftCost);
+		float fAngleOffset;
 
 		// If turning right costs less, return it as a negative number
 		if (fRightCost < fLeftCost)
-			return (-1 * fRightCost);
+			fAngleOffset = (-1 * fRightCost);
 		// Otherwise it's to the left which is just a positive number
 		else
-			return (fLeftCost);
+			fAngleOffset =  (fLeftCost);
+
+		printf("Gradient from (%u, %u) to (%u, %u) is %f rads with tested %f, off by %f!\n", 
+		from.dwX, from.dwY, to.dwX, to.dwY, fNecessaryAngle, angle, fAngleOffset);
+
+		return fAngleOffset;
 	}
 };
 
