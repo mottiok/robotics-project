@@ -59,8 +59,8 @@ public:
 		sCurrPos.dwY = (sCurrPos.dwY / (_gridResolution / _pixelResolution));
 
 	//	printf("Time to traverse waypoint? Is %f less than %u?\n", 
-		SPosition::CalcDistance(sCurrPos, _waypoints->CurrentWaypoint()->GetPosition()),
-			WAYPOINT_RADIUS);
+	//	SPosition::CalcDistance(sCurrPos, _waypoints->CurrentWaypoint()->GetPosition()),
+	//		WAYPOINT_RADIUS);
 
 		if (SPosition::CalcDistance(sCurrPos, _waypoints->CurrentWaypoint()->GetPosition()) < WAYPOINT_RADIUS)
 		{
