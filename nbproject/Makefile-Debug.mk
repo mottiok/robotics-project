@@ -68,7 +68,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lplayerc++ -lSDL2
+LDLIBSOPTIONS=-lplayerc++ -lSDL2 -lSDL2_image
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}

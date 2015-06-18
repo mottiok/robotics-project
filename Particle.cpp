@@ -173,6 +173,8 @@ void Particle::DrawLaserScan(CMap* map, SDL2Wrapper* sdl, LaserProxy* lp) {
 			SMapCell* cell = map->GetMapCell(cellPosition.dwX, cellPosition.dwY);
 
 			if (!cell->fIsPassable) {
+				sdl->DrawPoint(dObstacleX, dObstacleY, GREEN_RGB_FORMAT, 255);
+			} else {
 				sdl->DrawPoint(dObstacleX, dObstacleY, RED_RGB_FORMAT, 255);
 			}
 		}

@@ -27,7 +27,6 @@ int main() {
 
 	SDL2Wrapper sdl;
 	sdl.CreateWindow("World Map", map.GetMapWidth(), map.GetMapHeight());
-	map.DrawMapState(&sdl, true);
 	
 	dword startX = 362, startY = 305, startYaw = 0;
 	dword goalX = 169, goalY = 138;
@@ -71,6 +70,9 @@ int main() {
 
 		map.DumpMap("waypoint_path.png");
 #endif
+		
+		map.DumpMap("processed_map.png");
+		sdl.LoadBackground("processed_map.png", true);
 		
 		LocalizationManager localization(&map, &sdl);
 		Robot robot("localhost", 6665, &localization);
