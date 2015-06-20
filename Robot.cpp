@@ -70,7 +70,7 @@ void Robot::SetSpeed(double aXSpeed, double aYawSpeed) {
 }
 
 bool Robot::IsForwardFree() {
-	if (((*_lp)[332]) > 0.35 && ((*_lp)[280]) > 0.35 && ((*_lp)[384]) > 0.35) {
+	if (((*_lp)[332]) > 0.7 && ((*_lp)[260]) > 0.6 && ((*_lp)[404]) > 0.6) {
 		return true;
 	}
 

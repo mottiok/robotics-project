@@ -19,16 +19,20 @@ public:
 	bool StartCondition() {
 		Waypoint* pTarget = _waypoints->CurrentWaypoint();
 
-//		printf("Time to turn right? Right is free: %u, Is Angle offset %f less than %f ? %u\n",
-//					_robot->IsRightFree(), CalcCurrWaypointAngleOffset(pTarget),
-//					 -1 * MAX_STRAIGHT_LINE_ERROR,
-//					(CalcCurrWaypointAngleOffset(pTarget) < -1 * MAX_STRAIGHT_LINE_ERROR));
+		/*printf("Time to turn right? Right is free: %u, Is Angle offset %f less than %f ? %u, Is forward blocked? %u\n",
+					_robot->IsRightFree(), CalcCurrWaypointAngleOffset(pTarget),
+					 -1 * MAX_STRAIGHT_LINE_ERROR,
+					(CalcCurrWaypointAngleOffset(pTarget) < -1 * MAX_STRAIGHT_LINE_ERROR),
+					!_robot->IsForwardFree());*/
 
-		return (_robot->IsRightFree() && (CalcCurrWaypointAngleOffset(pTarget) < -1 * MAX_STRAIGHT_LINE_ERROR) && CalcCurrWaypointAngleOffset(pTarget));
+		if (NULL == _waypoints->CurrentWaypoint())
+			return false;
+		else
+			return (_robot->IsRightFree() && ((CalcCurrWaypointAngleOffset(pTarget) < -1 * MAX_STRAIGHT_LINE_ERROR) || !_robot->IsForwardFree()));
 	}
 
 	bool StopCondition() {
-		return (!StartCondition());
+		return (!StartCondition() || (NULL == _waypoints->CurrentWaypoint()));
 	}
 
 	void Action() {

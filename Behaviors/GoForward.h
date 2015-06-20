@@ -20,11 +20,15 @@ public:
 	bool StartCondition() {
 //		printf("Is it time to go forward? Is forward free: %u, are we en route to the waypoint? %u\n",
 //			_robot->IsForwardFree(), HasStraightPath(_waypoints->CurrentWaypoint()));
-		return (_robot->IsForwardFree() && HasStraightPath(_waypoints->CurrentWaypoint()));
+
+		if (NULL == _waypoints->CurrentWaypoint())
+			return false;
+		else
+			return (_robot->IsForwardFree() && (HasStraightPath(_waypoints->CurrentWaypoint()) || !_robot->IsLeftFree() || !_robot->IsRightFree()));
 	}
 
 	bool StopCondition() {
-		return (!StartCondition());
+		return (!StartCondition() || (NULL == _waypoints->CurrentWaypoint()));
 	}
 
 	void Action();
