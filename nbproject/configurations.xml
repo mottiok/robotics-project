@@ -56,6 +56,7 @@
       <itemPath>WaypointManager.cpp</itemPath>
       <itemPath>WaypointManager.h</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>parameters.txt</itemPath>
       <itemPath>typedefs.h</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -174,6 +175,8 @@
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="parameters.txt" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="typedefs.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
@@ -272,6 +275,8 @@
       <item path="WaypointManager.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="parameters.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="typedefs.h" ex="false" tool="3" flavor2="0">
       </item>

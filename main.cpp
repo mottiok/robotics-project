@@ -21,19 +21,19 @@ using namespace std;
 
 int main() {
 	
+	Configuration config;
+	config.LoadConfigFile("parameters.txt");
+	
 	CMap map;
-	map.SetResolutions(2.5, 10);
-	map.LoadMap("robotic_lab_map.png");
+	map.SetResolutions(config.GetMapResolution(), config.GetGridResolution());
+	map.LoadMap(config.GetMapFilePath());
 
 	SDL2Wrapper sdl;
 	sdl.CreateWindow("World Map", map.GetMapWidth(), map.GetMapHeight());
-	
-	dword startX = 362, startY = 305, startYaw = 0;
-	dword goalX = 169, goalY = 138;
 
 	// Convert to start and goal cells in our map
-	SPosition startCellPos = map.PixelCoordToCellPosition(startX, startY);
-	SPosition goalCellPos = map.PixelCoordToCellPosition(goalX, goalY);
+	SPosition startCellPos = map.PixelCoordToCellPosition(config.GetStartX(), config.GetStartY());
+	SPosition goalCellPos = map.PixelCoordToCellPosition(config.GetGoalX(), config.GetGoalY());
 	
 	PathPlanner planner(&map);
 	vector<MapSearchNode*> nodesFromStartToGoal;
@@ -76,7 +76,8 @@ int main() {
 		
 		LocalizationManager localization(&map, &sdl);
 		Robot robot("localhost", 6665, &localization);
-		robot.SetOdometryByPixelCoord(startX, startY, startYaw, map.GetPixelResolution(), map.GetMapWidth(), map.GetMapHeight());
+		robot.SetOdometryByPixelCoord(config.GetStartX(), config.GetStartY(), config.GetStartYaw(),
+				map.GetPixelResolution(), map.GetMapWidth(), map.GetMapHeight());
 		ObstacleAvoidancePlan plan(&robot, &WpMgr, map.GetPixelResolution(), map.GetGridResolution(), map.GetMapWidth(), map.GetMapHeight());
 		
 		Manager manager(&robot, &plan, &WpMgr, &map, &sdl);
