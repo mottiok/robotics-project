@@ -15,6 +15,12 @@ Manager::Manager(Robot* robot, Plan* plan, WaypointManager* waypoints, CMap* map
 	_map = map;
 	_sdl = sdl;
 	_currentBehavior = plan->StartPointBehavior();
+
+	_waypoints->InitWaypointTraversal();
+	_waypoints->TraverseWaypoint();
+	
+	if (!_currentBehavior->StartCondition(_currentBehavior->GetBehaviorType()))
+		_currentBehavior = _currentBehavior->NextBehavior();
 }
 
 void Manager::Run() {
@@ -23,13 +29,8 @@ void Manager::Run() {
 	_waypoints->InitWaypointTraversal();
 	_waypoints->TraverseWaypoint();
 
-	if (_currentBehavior == NULL || !_currentBehavior->StartCondition()) {
-
-		if (NULL != _currentBehavior)
-			_currentBehavior = _currentBehavior->NextBehavior();
-
-		if (NULL == _currentBehavior)
-			return;
+	if (_currentBehavior == NULL || !_currentBehavior->StartCondition(_currentBehavior->GetBehaviorType())) {
+		return;
 	}
 
 	_currentBehavior->Action();
@@ -40,7 +41,8 @@ void Manager::Run() {
 			_robot->ReadAndUpdateLocalization();
 			_sdl->FlushChanges();
 		}
-//		printf("Changing behavior!\n");
+		printf("Changing behavior! Are we evasive? %u\n", _currentBehavior->IsEvasive());
+
 		_currentBehavior = _currentBehavior->NextBehavior();
 		_robot->ReadAndUpdateLocalization();
 	}

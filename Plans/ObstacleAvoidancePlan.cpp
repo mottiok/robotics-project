@@ -19,7 +19,10 @@ ObstacleAvoidancePlan::ObstacleAvoidancePlan(Robot* robot, WaypointManager* wayp
 	forward->AddBehavior(left);
 
 	right->AddBehavior(forward);
+	right->AddBehavior(left);
+
 	left->AddBehavior(forward);
+	left->AddBehavior(right);
 
 	_behaviors.push_back(forward);
 	_behaviors.push_back(right);

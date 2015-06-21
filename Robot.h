@@ -54,9 +54,9 @@ public:
 	
 	void SetSpeed(double aXSpeed, double aYawSpeed);
 
-	bool IsForwardFree();
-	bool IsRightFree();
-	bool IsLeftFree();
+	bool IsForwardFree(float fRadius = 0.6F);
+	bool IsRightFree(float fRadius = 0.35F);
+	bool IsLeftFree(float fRadius = 0.35F);
 };
 
 #endif /* ROBOT_H_ */

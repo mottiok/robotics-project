@@ -69,27 +69,27 @@ void Robot::SetSpeed(double aXSpeed, double aYawSpeed) {
 	_pp->SetSpeed(aXSpeed, aYawSpeed);
 }
 
-bool Robot::IsForwardFree() {
-	if (((*_lp)[332]) > 0.7 && ((*_lp)[260]) > 0.6 && ((*_lp)[404]) > 0.6) {
+bool Robot::IsForwardFree(float fRadius) {
+	if (((*_lp)[332]) > fRadius && ((*_lp)[260]) > fRadius && ((*_lp)[404]) > fRadius) {
 		return true;
 	}
 
 	return false;
 }
 
-bool Robot::IsRightFree() {
-	if (((*_lp)[166]) > 0.35) {
+bool Robot::IsRightFree(float fRadius) {
+	if (((*_lp)[166]) > fRadius) {
 		return true;
 	}
-	printf("Cannot turn right! R: %f\n", (*_lp)[166]);
+	//printf("Cannot turn right! R: %f\n", (*_lp)[166]);
 	return false;
 }
 
-bool Robot::IsLeftFree() {
-	if (((*_lp)[498]) > 0.35) {
+bool Robot::IsLeftFree(float fRadius) {
+	if (((*_lp)[498]) > fRadius) {
 		return true;
 	}
-	printf("Cannot turn left! R: %f\n", (*_lp)[498]);
+	//printf("Cannot turn left! R: %f\n", (*_lp)[498]);
 	return false;
 }
 
