@@ -26,8 +26,9 @@ double random(double dMin, double dMax) {
 
 int main() {
 	
-	/*srand (time(NULL));
+	srand (time(NULL));
 	
+	/*
 	// ---------------- TESTING START HERE ----------------
 	PlayerClient pc("localhost", 6665);
 	Position2dProxy pp(&pc);
