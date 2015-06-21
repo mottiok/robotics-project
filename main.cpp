@@ -19,21 +19,59 @@ using namespace std;
 #include "Plans/ObstacleAvoidancePlan.h"
 #include "Manager.h"
 
+double random(double dMin, double dMax) {
+	double num = (double)rand() / RAND_MAX;
+	return dMin + num * (dMax - dMin);
+}
+
 int main() {
 	
+	srand (time(NULL));
+	
+	// ---------------- TESTING START HERE ----------------
+	PlayerClient pc("localhost", 6665);
+	Position2dProxy pp(&pc);
+	pp.SetMotorEnable(true);
+	
+	// starting point for the simulator
+	double dX = 2.17;
+	double dY = -2.88;
+	double dYaw = 0;
+	
+	pp.SetOdometry(dX, dY, dYaw);
+	
+	for (int i=0; i<15; i++)
+		pc.Read();
+	
+	double tempX, tempY, tempYaw = 0;
+	pp.SetSpeed(0.2, 0);
+	
+	while (true) {
+		tempX = pp.GetXPos(), tempY = pp.GetYPos(), tempYaw = pp.GetYaw();
+//		printf("Delta: %lg, %lg, %lg\n", (tempX - dX), (tempY - dY), (tempYaw - dYaw)); // delta position
+		printf("Position: %lg, %lg, %lg\n", tempX, tempY, tempYaw); // raw position
+		dX = tempX, dY = tempY, dYaw = tempYaw;
+		pp.SetOdometry(tempX, tempY, tempYaw + random(-1, 2)); // simulate the problem
+//		pp.SetOdometry(tempX, tempY, tempYaw);
+		pc.Read();
+	}
+	
+	return 0;
+	// ---------------- TESTING END HERE ----------------
+	
+	Configuration config;
+	config.LoadConfigFile("parameters.txt");
+	
 	CMap map;
-	map.SetResolutions(2.5, 10);
-	map.LoadMap("robotic_lab_map.png");
+	map.SetResolutions(config.GetMapResolution(), config.GetGridResolution());
+	map.LoadMap(config.GetMapFilePath());
 
 	SDL2Wrapper sdl;
 	sdl.CreateWindow("World Map", map.GetMapWidth(), map.GetMapHeight());
-	
-	dword startX = 362, startY = 305, startYaw = 0;
-	dword goalX = 169, goalY = 138;
 
 	// Convert to start and goal cells in our map
-	SPosition startCellPos = map.PixelCoordToCellPosition(startX, startY);
-	SPosition goalCellPos = map.PixelCoordToCellPosition(goalX, goalY);
+	SPosition startCellPos = map.PixelCoordToCellPosition(config.GetStartX(), config.GetStartY());
+	SPosition goalCellPos = map.PixelCoordToCellPosition(config.GetGoalX(), config.GetGoalY());
 	
 	PathPlanner planner(&map);
 	vector<MapSearchNode*> nodesFromStartToGoal;
@@ -76,7 +114,8 @@ int main() {
 		
 		LocalizationManager localization(&map, &sdl);
 		Robot robot("localhost", 6665, &localization);
-		robot.SetOdometryByPixelCoord(startX, startY, startYaw, map.GetPixelResolution(), map.GetMapWidth(), map.GetMapHeight());
+		robot.SetOdometryByPixelCoord(config.GetStartX(), config.GetStartY(), config.GetStartYaw(),
+				map.GetPixelResolution(), map.GetMapWidth(), map.GetMapHeight());
 		ObstacleAvoidancePlan plan(&robot, &WpMgr, map.GetPixelResolution(), map.GetGridResolution(), map.GetMapWidth(), map.GetMapHeight());
 		
 		Manager manager(&robot, &plan, &WpMgr, &map, &sdl);
