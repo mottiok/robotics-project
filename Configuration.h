@@ -17,6 +17,10 @@
 
 using namespace std;
 
+// Main
+#define PLAYER_HOST "localhost"
+#define PLAYER_PORT 6665
+
 // Localization Manager
 #define LOW_BELIF_THRESHOLD 0.2
 #define HIGH_BELIF_THRESHOLD 0.7

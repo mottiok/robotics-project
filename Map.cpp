@@ -349,7 +349,7 @@ void CMap::CoatObstacleWeights()
 	}
 }
 
-bool CMap::LoadMap(const char* szMapPath)
+bool CMap::LoadMap(const char* szMapPath, float robotHalfSize)
 {
 	vector<byte> vRawImg;
 
@@ -388,7 +388,7 @@ bool CMap::LoadMap(const char* szMapPath)
 	m_fIsMapLoaded = true;
 
 	// Bloat obstacles
-	BlowMapObstacles(5);
+	BlowMapObstacles(robotHalfSize / m_dwPixelResolution);
 	DumpMap(m_pRawMap, m_dwMapWidth, m_dwMapHeight, "bloated.png");
 
 	PrepareMapGrid();

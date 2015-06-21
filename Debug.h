@@ -2,7 +2,7 @@
 #define DEBUG_H
 
 // Enable Drawing Behaviors
-//#define DRAW_ASTAR_EXPANSION // Don't use it in production - add few second to the overall algorithm time
+// #define DRAW_ASTAR_EXPANSION // Don't use it in production - add few second to the overall algorithm time
 #define DRAW_PATH
 #define DRAW_WAYPOINTS
 #define DRAW_PARTICLES

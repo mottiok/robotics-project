@@ -160,7 +160,7 @@ class CMap
 		 m_dwGridResolution(0) {};
 	~CMap();
 
-	bool LoadMap(const char* szMapPath);
+	bool LoadMap(const char* szMapPath, float robotHalfSize);
 	bool BlowMapObstacles(word wPixelRadius);
 	void SetResolutions(double dwPixelResolution, double dwGridResolution);
 	SMapCell* GetCellByPixelCoord(double fX, double fY);

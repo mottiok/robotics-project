@@ -65,7 +65,7 @@ int main() {
 	
 	CMap map;
 	map.SetResolutions(config.GetMapResolution(), config.GetGridResolution());
-	map.LoadMap(config.GetMapFilePath());
+	map.LoadMap(config.GetMapFilePath(), config.GetRobotSize() / 2);
 
 	SDL2Wrapper sdl;
 	sdl.CreateWindow("World Map", map.GetMapWidth(), map.GetMapHeight());
@@ -103,7 +103,7 @@ int main() {
 		do
 		{
 			printf("Waypoint at (%u, %u)\n", pCurrWP->GetXPos(), pCurrWP->GetYPos());
-			map.ColorCellByCoord(pCurrWP->GetXPos(), pCurrWP->GetYPos(), YELLOW_RGB_FORMAT);
+			map.ColorCellByCoord(pCurrWP->GetXPos(), pCurrWP->GetYPos(), ORANGE_RGB_FORMAT);
 		}
 		while (NULL != (pCurrWP = WpMgr.TraverseWaypoint()));
 
@@ -114,7 +114,7 @@ int main() {
 		sdl.LoadBackground("processed_map.png", true);
 		
 		LocalizationManager localization(&map, &sdl);
-		Robot robot("localhost", 6665, &localization);
+		Robot robot(PLAYER_HOST, PLAYER_PORT, &localization);
 		robot.SetOdometryByPixelCoord(config.GetStartX(), config.GetStartY(), config.GetStartYaw(),
 				map.GetPixelResolution(), map.GetMapWidth(), map.GetMapHeight());
 		ObstacleAvoidancePlan plan(&robot, &WpMgr, map.GetPixelResolution(), map.GetGridResolution(), map.GetMapWidth(), map.GetMapHeight());
