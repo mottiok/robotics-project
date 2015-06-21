@@ -21,9 +21,9 @@ public:
 
 		if (NULL != _waypoints->CurrentWaypoint())
 		{
-			printf("Time to turn left? Left is free: %u, Is Angle offset %f more than %f ? %u, Is forward blocked? %u\n",
-				_robot->IsLeftFree(), CalcCurrWaypointAngleOffset(pTarget), MAX_STRAIGHT_LINE_ERROR,
-				(CalcCurrWaypointAngleOffset(pTarget) > MAX_STRAIGHT_LINE_ERROR), !_robot->IsForwardFree());
+//			printf("Time to turn left? Left is free: %u, Is Angle offset %f more than %f ? %u, Is forward blocked? %u\n",
+//				_robot->IsLeftFree(), CalcCurrWaypointAngleOffset(pTarget), MAX_STRAIGHT_LINE_ERROR,
+//				(CalcCurrWaypointAngleOffset(pTarget) > MAX_STRAIGHT_LINE_ERROR), !_robot->IsForwardFree());
 		}
 
 		if (NULL == _waypoints->CurrentWaypoint())
@@ -32,7 +32,7 @@ public:
 		{
 			if ((CalcCurrWaypointAngleOffset(pTarget) > MAX_STRAIGHT_LINE_ERROR) && !_robot->IsLeftFree())
 			{
-				printf("MAKING A SWERVE MATEY!\n");
+//				printf("MAKING A SWERVE MATEY!\n");
 				SetEvasive(true);
 			}
 

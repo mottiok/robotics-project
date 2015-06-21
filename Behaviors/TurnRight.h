@@ -25,7 +25,7 @@ public:
 					(CalcCurrWaypointAngleOffset(pTarget) < -1 * MAX_STRAIGHT_LINE_ERROR),
 					!_robot->IsForwardFree(DETECT_EVASION_RADIUS));*/
 
-		printf("Time to turn right? Is right free? %u, Is left blocked? %u Is forward blocked? %u\n", _robot->IsRightFree(), !_robot->IsLeftFree(DETECT_EVASION_RADIUS), !_robot->IsForwardFree(DETECT_EVASION_RADIUS)); 
+//		printf("Time to turn right? Is right free? %u, Is left blocked? %u Is forward blocked? %u\n", _robot->IsRightFree(), !_robot->IsLeftFree(DETECT_EVASION_RADIUS), !_robot->IsForwardFree(DETECT_EVASION_RADIUS)); 
 
 		if (NULL == _waypoints->CurrentWaypoint())
 			return false;
@@ -35,7 +35,7 @@ public:
 			{
 				if (!_robot->IsForwardFree(DETECT_EVASION_RADIUS))
 				{
-					printf("fw blocked, turning right on purpose\n");
+//					printf("fw blocked, turning right on purpose\n");
 					return _robot->IsRightFree();
 				}
 				else	

@@ -19,10 +19,10 @@ using namespace std;
 #include "Plans/ObstacleAvoidancePlan.h"
 #include "Manager.h"
 
-double random(double dMin, double dMax) {
-	double num = (double)rand() / RAND_MAX;
-	return dMin + num * (dMax - dMin);
-}
+//double random(double dMin, double dMax) {
+//	double num = (double)rand() / RAND_MAX;
+//	return dMin + num * (dMax - dMin);
+//}
 
 int main() {
 	

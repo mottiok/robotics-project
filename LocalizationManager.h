@@ -27,13 +27,13 @@ class LocalizationManager {
 	 * This position is the last known best particle, just in case the entire
 	 * particles vector is empty we will create new particle from this position.
 	 */
-	double _dX;
-	double _dY;
-	double _dYaw;
+	float _dX;
+	float _dY;
+	float _dYaw;
 	
 	// Fill in the childs vector with new childs from the parent particle
 	void BreedParticle(Particle* particle, int dwChildCount, vector<Particle*>& childs);
-	void BreedParticle(Particle* particle, int dwChildCount, double dExpansionRadius, vector<Particle*>& childs);
+	void BreedParticle(Particle* particle, int dwChildCount, float dExpansionRadius, float dYawRange, vector<Particle*>& childs);
 	
 	// Transfer childs vector to the main particles vector as new future parents
 	void TransferChildsToParticles(vector<Particle*> childs);
@@ -42,14 +42,14 @@ public:
 	virtual ~LocalizationManager();
 	
 	// Update all particles with new position and breed or kill if necessary
-	void Update(double deltaX, double deltaY, double deltaYaw, LaserProxy* lp);
+	void Update(float deltaX, float deltaY, float deltaYaw, LaserProxy* lp);
 	
 	// Get the best particle that represent the actual robot position
 	Particle* GetBestParticle();
 	
 	// Create new particle and breed him with max childs count
-	bool CreateParticle(double dX, double dY, double dYaw, double dBel);
-	bool CreateParticle(double dX, double dY, double dYaw, double dBel, double dExpansionRadius, int childsCount);
+	bool CreateParticle(float dX, float dY, float dYaw, float dBel);
+	bool CreateParticle(float dX, float dY, float dYaw, float dBel, float dExpansionRadius, float dYawRange, int childsCount);
 private:
 
 };

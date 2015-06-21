@@ -8,7 +8,7 @@
 #include "Particle.h"
 #include "Debug.h"
 
-Particle::Particle(double dX, double dY, double dYaw, double dBel) {
+Particle::Particle(float dX, float dY, float dYaw, float dBel) {
 	_dX = dX;
 	_dY = dY;
 	_dYaw = dYaw;
@@ -22,59 +22,68 @@ Particle::~Particle() {
 }
 
 Particle* Particle::CreateChild() {
-	return CreateChild(EXPANSION_RADIUS);
+	return CreateChild(EXPANSION_RADIUS, YAW_RANGE);
 }
 
-Particle* Particle::CreateChild(double dExpansionRadius) {
-	double newX = _dX + Randomize(-dExpansionRadius, dExpansionRadius);
-	double newY = _dY + Randomize(-dExpansionRadius, dExpansionRadius);
-	double newYaw = _dYaw + Randomize(-dExpansionRadius, dExpansionRadius);
+Particle* Particle::CreateChild(float dExpansionRadius, float dYawRange) {
+	float newX = _dX + Randomize(-dExpansionRadius, dExpansionRadius);
+	float newY = _dY + Randomize(-dExpansionRadius, dExpansionRadius);
+	float newYaw = _dYaw + Randomize(-dYawRange, dYawRange);
 	return new Particle(newX, newY, newYaw, 1);
 }
 
-void Particle::Update(double deltaX, double deltaY, double deltaYaw, CMap* map, LaserProxy* lp) {
+void Particle::Update(float deltaX, float deltaY, float deltaYaw, CMap* map, SDL2Wrapper* sdl, LaserProxy* lp) {
 	_dX += deltaX;
 	_dY += deltaY;
 	_dYaw += deltaYaw;
 	
 	// Calculate new belif value from prediction belif, laser scan and the belif magic number
-	double predictionBelif = ProbabilityByMovement(deltaX, deltaY, deltaYaw) * _dBel;
-	double probabilityByScan = ProbabilityByLaserScan(_dX, _dY, _dYaw, map, lp);
+	float predictionBelif = ProbabilityByMovement(deltaX, deltaY, deltaYaw) * _dBel;
+	float probabilityByScan = ProbabilityByLaserScan(_dX, _dY, _dYaw, map, sdl, lp, false);
 	_dBel = probabilityByScan * predictionBelif * BELIF_MAGIC_NUMBER;
 	
 	if (_dBel > 1)
 		_dBel = 1;
 }
 
-double Particle::GetBelif() {
+float Particle::GetBelif() {
 	return _dBel;
 }
 
-double Particle::GetX() {
+float Particle::GetX() {
 	return _dX;
 }
 
-double Particle::GetY() {
+float Particle::GetY() {
 	return _dY;
 }
 
-double Particle::GetYaw() {
+float Particle::GetYaw() {
 	return _dYaw;
 }
 
-double Particle::Randomize(double dMin, double dMax) {
-	double num = (double)rand() / RAND_MAX;
+float Particle::Randomize(float dMin, float dMax) {
+	float num = (float)rand() / RAND_MAX;
 	return dMin + num * (dMax - dMin);
 }
 
-double Particle::ProbabilityByMovement(double deltaX, double deltaY, double deltaYaw) {
+float Particle::ProbabilityByMovement(float deltaX, float deltaY, float deltaYaw) {
 	
-	double distance = sqrt(pow(deltaX,2) + pow(deltaY,2));
+	float distance = sqrt(pow(deltaX,2) + pow(deltaY,2));
 	
 	/*
 	 * Welcome to magic numbers section - this one need a refactoring
 	 * Any good ideas how to make it better?
 	 */
+	
+//	if (deltaYaw > 0.5)
+//		return 0;
+//	
+//	if (deltaYaw > 0.3)
+//		return 0.1;
+//	
+//	if (deltaYaw > 0.2)
+//		return 0.2;
 	
 	if (distance < 0.1)
 		return 1;
@@ -94,28 +103,45 @@ double Particle::ProbabilityByMovement(double deltaX, double deltaY, double delt
 	return 0.1;
 }
 
-double Particle::ProbabilityByLaserScan(double dX, double dY, double dYaw, CMap* map, LaserProxy* lp) {
-	int scans = lp->GetCount();
-	double maxRange = lp->GetMaxRange();
+float Particle::ProbabilityByLaserScan(float dX, float dY, float dYaw, CMap* map, SDL2Wrapper* sdl, LaserProxy* lp, bool shouldDraw) {
+	// Convert relative obstacle position to our valid map position
+	float resolution = CM_TO_METERS(map->GetPixelResolution());
+	float mapWidth = map->GetMapWidth();
+	float mapHeight = map->GetMapHeight();
 	
-	double correctHits = 0;
-	double totalHits = 0;
+	float xCoord = Convert::RobotRelativeXPosToPixelXCoord(dX, resolution, mapWidth);
+	float yCoord = Convert::RobotRelativeYPosToPixelYCoord(dY, resolution, mapHeight);
+	
+	// Check if current position is a valid position before continue
+	if (xCoord < 0 || xCoord >= map->GetMapWidth() ||
+			yCoord < 0 || yCoord >= map->GetMapHeight()) {
+		return 0;
+	}
+	
+	SPosition cellCurrentPosition = map->PixelCoordToCellPosition(xCoord, yCoord);
+	SMapCell* mapCurrentPos = map->GetMapCell(cellCurrentPosition.dwX, cellCurrentPosition.dwY);
+	
+	// Current position can't be on an obstacle
+	if (!mapCurrentPos->fIsPassable) {
+		return 0;
+	}
+	
+	int scans = lp->GetCount();
+	float maxRange = lp->GetMaxRange();
+			
+	float totalHits = 0;
+	float correctHits = 0;
 	
 	for(int i=0; i<scans; i++) {
-		double range = lp->GetRange(i);
+		float range = lp->GetRange(i);
 		
 		if (range < maxRange) {
 			totalHits++;
 			
 			// Calculate obstacle position
-			double bearing = lp->GetBearing(i);
-			double dObstacleX = dX + range * cos(dYaw + bearing);
-			double dObstacleY = dY + range * sin(dYaw + bearing);
-			
-			// Convert relative obstacle position to our valid map position
-			double resolution = CM_TO_METERS(map->GetPixelResolution());
-			double mapWidth = map->GetMapWidth();
-			double mapHeight = map->GetMapHeight();
+			float bearing = lp->GetBearing(i);
+			float dObstacleX = dX + range * cos(dYaw + bearing);
+			float dObstacleY = dY + range * sin(dYaw + bearing);
 			
 			dObstacleX = Convert::RobotRelativeXPosToPixelXCoord(dObstacleX, resolution, mapWidth);
 			dObstacleY = Convert::RobotRelativeYPosToPixelYCoord(dObstacleY, resolution, mapHeight);
@@ -130,55 +156,25 @@ double Particle::ProbabilityByLaserScan(double dX, double dY, double dYaw, CMap*
 			SMapCell* cell = map->GetMapCell(cellPosition.dwX, cellPosition.dwY);
 			
 			if (!cell->fIsPassable) {
+				if (shouldDraw) {
+					sdl->DrawPoint(dObstacleX, dObstacleY, GREEN_RGB_FORMAT, 255);
+				}
 				correctHits++;
+			} else {
+				if (shouldDraw) {
+					sdl->DrawPoint(dObstacleX, dObstacleY, RED_RGB_FORMAT, 255);
+				}
 			}
 		}
 	}
 	
-	double accuracy = correctHits / totalHits;
+	float accuracy = correctHits / totalHits;
 	
 	return accuracy;
 }
 
-// TODO: This is the same as above (almost) - try to combine
 void Particle::DrawLaserScan(CMap* map, SDL2Wrapper* sdl, LaserProxy* lp) {
-	int scans = lp->GetCount();
-	double maxRange = lp->GetMaxRange();
-	
-	for(int i=0; i<scans; i++) {
-		double range = lp->GetRange(i);
-		
-		if (range < maxRange) {
-			
-			// Calculate obstacle position
-			double bearing = lp->GetBearing(i);
-			double dObstacleX = GetX() + range * cos(GetYaw() + bearing);
-			double dObstacleY = GetY() + range * sin(GetYaw() + bearing);
-			
-			// Convert relative obstacle position to our valid map position
-			double resolution = CM_TO_METERS(map->GetPixelResolution());
-			double mapWidth = map->GetMapWidth();
-			double mapHeight = map->GetMapHeight();
-			
-			dObstacleX = Convert::RobotRelativeXPosToPixelXCoord(dObstacleX, resolution, mapWidth);
-			dObstacleY = Convert::RobotRelativeYPosToPixelYCoord(dObstacleY, resolution, mapHeight);
-			
-			// Check bounds before actually trying to get cell
-			if (dObstacleX < 0 || dObstacleX >= map->GetMapWidth() ||
-					dObstacleY < 0 || dObstacleY >= map->GetMapHeight()) {
-				continue;
-			}
-			
-			SPosition cellPosition = map->PixelCoordToCellPosition(dObstacleX, dObstacleY);
-			SMapCell* cell = map->GetMapCell(cellPosition.dwX, cellPosition.dwY);
-
-			if (!cell->fIsPassable) {
-				sdl->DrawPoint(dObstacleX, dObstacleY, GREEN_RGB_FORMAT, 255);
-			} else {
-				sdl->DrawPoint(dObstacleX, dObstacleY, RED_RGB_FORMAT, 255);
-			}
-		}
-	}
+	ProbabilityByLaserScan(GetX(), GetY(), GetYaw(), map, sdl, lp, true);
 }
 
 void Particle::IncreaseAge() {

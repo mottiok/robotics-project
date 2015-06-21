@@ -6,6 +6,7 @@
  */
 
 #include "LocalizationManager.h"
+#include <ctime>
 
 LocalizationManager::LocalizationManager(CMap* map, SDL2Wrapper* sdl) {
 	_map = map;
@@ -24,7 +25,7 @@ LocalizationManager::~LocalizationManager() {
 	}
 }
 
-void LocalizationManager::Update(double deltaX, double deltaY, double deltaYaw, LaserProxy* lp) {
+void LocalizationManager::Update(float deltaX, float deltaY, float deltaYaw, LaserProxy* lp) {	
 	vector<Particle*> childsToAdd;
 	vector<int> childsToRemove;
 	int particlesSize = _particles.size();
@@ -33,9 +34,9 @@ void LocalizationManager::Update(double deltaX, double deltaY, double deltaYaw, 
 		
 		// Get each particle and update position
 		Particle* particle = _particles[i];
-		particle->Update(deltaX, deltaY, deltaYaw, _map, lp);
+		particle->Update(deltaX, deltaY, deltaYaw, _map, _sdl, lp);
 		
-		double belif = particle->GetBelif();
+		float belif = particle->GetBelif();
 		
 		// Depending on the belif value kill or breed the given particle
 		if (belif <= LOW_BELIF_THRESHOLD) {
@@ -71,8 +72,8 @@ void LocalizationManager::Update(double deltaX, double deltaY, double deltaYaw, 
 	bestParticle = GetBestParticle();
 	for (int i=0; i<_particles.size(); i++) {
 		Particle* particle = _particles[i];
-		double dX = Convert::RobotRelativeXPosToPixelXCoord(particle->GetX(), CM_TO_METERS(_map->GetPixelResolution()), _map->GetMapWidth());
-		double dY = Convert::RobotRelativeYPosToPixelYCoord(particle->GetY(), CM_TO_METERS(_map->GetPixelResolution()), _map->GetMapHeight());
+		float dX = Convert::RobotRelativeXPosToPixelXCoord(particle->GetX(), CM_TO_METERS(_map->GetPixelResolution()), _map->GetMapWidth());
+		float dY = Convert::RobotRelativeYPosToPixelYCoord(particle->GetY(), CM_TO_METERS(_map->GetPixelResolution()), _map->GetMapHeight());
 		if (particle->GetX() == bestParticle->GetX() &&
 				particle->GetY() == bestParticle->GetY() &&
 				particle->GetYaw() == bestParticle->GetYaw() &&
@@ -80,11 +81,12 @@ void LocalizationManager::Update(double deltaX, double deltaY, double deltaYaw, 
 			continue;
 		}
 		
-		_sdl->FillRectangle(dX, dY, (double)(_map->GetGridResolution() / _map->GetPixelResolution()), PURPLE_RGB_FORMAT, 255, false);
+//		_sdl->FillRectangle(dX, dY, (double)(_map->GetGridResolution() / _map->GetPixelResolution()), PURPLE_RGB_FORMAT, 255, false);
+		_sdl->DrawPoint(dX, dY, PURPLE_RGB_FORMAT, 255);
 	}
 	
-	double dX = Convert::RobotRelativeXPosToPixelXCoord(bestParticle->GetX(), CM_TO_METERS(_map->GetPixelResolution()), _map->GetMapWidth());
-	double dY = Convert::RobotRelativeYPosToPixelYCoord(bestParticle->GetY(), CM_TO_METERS(_map->GetPixelResolution()), _map->GetMapHeight());
+	float dX = Convert::RobotRelativeXPosToPixelXCoord(bestParticle->GetX(), CM_TO_METERS(_map->GetPixelResolution()), _map->GetMapWidth());
+	float dY = Convert::RobotRelativeYPosToPixelYCoord(bestParticle->GetY(), CM_TO_METERS(_map->GetPixelResolution()), _map->GetMapHeight());
 	_sdl->FillRectangle(dX, dY, (double)(_map->GetGridResolution() / _map->GetPixelResolution()), RED_RGB_FORMAT, 255, false);
 #endif
 	
@@ -94,8 +96,8 @@ void LocalizationManager::Update(double deltaX, double deltaY, double deltaYaw, 
 #endif
 }
 
-bool LocalizationManager::CreateParticle(double dX, double dY, double dYaw, double dBel) {
-	CreateParticle(dX, dY, dYaw, dBel, EXPANSION_RADIUS, PARTICLE_HIGH_BREED);
+bool LocalizationManager::CreateParticle(float dX, float dY, float dYaw, float dBel) {
+	CreateParticle(dX, dY, dYaw, dBel, EXPANSION_RADIUS, YAW_RANGE, PARTICLE_HIGH_BREED);
 }
 
 void LocalizationManager::BreedParticle(Particle* particle, int dwChildCount, vector<Particle*>& childs) {
@@ -111,10 +113,10 @@ void LocalizationManager::BreedParticle(Particle* particle, int dwChildCount, ve
 	}
 }
 
-void LocalizationManager::BreedParticle(Particle* particle, int dwChildCount, double dExpansionRadius, vector<Particle*>& childs) {
+void LocalizationManager::BreedParticle(Particle* particle, int dwChildCount, float dExpansionRadius, float dYawRange, vector<Particle*>& childs) {
 	if (_particles.size() + dwChildCount < MAX_PARTICLES_COUNT) {
 		for (int i=0; i<dwChildCount; i++) {
-			Particle* child = particle->CreateChild(dExpansionRadius);
+			Particle* child = particle->CreateChild(dExpansionRadius, dYawRange);
 			childs.push_back(child);
 		}
 	}
@@ -124,7 +126,7 @@ Particle* LocalizationManager::GetBestParticle() {
 	
 	// Incase no particles found we create new one from last known position
 	if (_particles.empty()) {
-		CreateParticle(_dX, _dY, _dYaw, 1, EMERGENCY_EXPANSION_RADIUS, PARTICLE_EMERGENCY_BREED);
+		CreateParticle(_dX, _dY, _dYaw, 1, EMERGENCY_EXPANSION_RADIUS, EMERGENCY_YAW_RANGE,  PARTICLE_EMERGENCY_BREED);
 		Particle* randomParticle = _particles[rand() % _particles.size()];
 		_dX = randomParticle->GetX();
 		_dY = randomParticle->GetY();
@@ -154,7 +156,7 @@ void LocalizationManager::TransferChildsToParticles(vector<Particle*> childs) {
 	}
 }
 
-bool LocalizationManager::CreateParticle(double dX, double dY, double dYaw, double dBel, double dExpansionRadius, int childsCount) {
+bool LocalizationManager::CreateParticle(float dX, float dY, float dYaw, float dBel, float dExpansionRadius, float dYawRange, int childsCount) {
 	// Create new particle only if not exceeded the max particles allowed
 	if (_particles.size() + childsCount < MAX_PARTICLES_COUNT) {
 		
@@ -166,7 +168,7 @@ bool LocalizationManager::CreateParticle(double dX, double dY, double dYaw, doub
 		Particle* particle = new Particle(dX, dY, dYaw, dBel);
 		_particles.push_back(particle);
 		vector<Particle*> childs;
-		BreedParticle(particle, childsCount, dExpansionRadius, childs);
+		BreedParticle(particle, childsCount, dExpansionRadius, dYawRange, childs);
 		TransferChildsToParticles(childs);
 		return true;
 	}

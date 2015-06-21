@@ -28,11 +28,11 @@ public:
 			return false;
 		else
 		{
-			printf("Time to go forward? Is left blocked? %u, Is forward free? %u, Got a path? %u\n", !_robot->IsLeftFree(DETECT_EVASION_RADIUS), _robot->IsForwardFree(), HasStraightPath(_waypoints->CurrentWaypoint()));
+//			printf("Time to go forward? Is left blocked? %u, Is forward free? %u, Got a path? %u\n", !_robot->IsLeftFree(DETECT_EVASION_RADIUS), _robot->IsForwardFree(), HasStraightPath(_waypoints->CurrentWaypoint()));
 
 			if (IsObstructed(_waypoints->CurrentWaypoint()))
 			{
-				printf("EVASIVE MANEUVERS HNNNGH\n");
+//				printf("EVASIVE MANEUVERS HNNNGH\n");
 				_evasiveManeuvers = true;
 			}
 

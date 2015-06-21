@@ -23,31 +23,31 @@ using namespace std;
 using namespace PlayerCc;
 
 class Particle {
-	double _dX;
-	double _dY;
-	double _dYaw;
-	double _dBel;
+	float _dX;
+	float _dY;
+	float _dYaw;
+	float _dBel;
 	
 	int _lifes;
 	int _age;
 	
-	double Randomize(double dMin, double dMax);
-	double ProbabilityByMovement(double deltaX, double deltaY, double deltaYaw);
-	double ProbabilityByLaserScan(double dX, double dY, double dYaw, CMap* map, LaserProxy* lp);
+	float Randomize(float dMin, float dMax);
+	float ProbabilityByMovement(float deltaX, float deltaY, float deltaYaw);
+	float ProbabilityByLaserScan(float dX, float dY, float dYaw, CMap* map, SDL2Wrapper* sdl, LaserProxy* lp, bool shouldDraw);
 	
 public:
-	Particle(double dX, double dY, double dYaw, double dBel);
+	Particle(float dX, float dY, float dYaw, float dBel);
 	virtual ~Particle();
 	
 	Particle* CreateChild();
-	Particle* CreateChild(double dExpansionRadius);
-	void Update(double dX, double dY, double dYaw, CMap* map, LaserProxy* lp);
+	Particle* CreateChild(float dExpansionRadius, float dYawRange);
+	void Update(float dX, float dY, float dYaw, CMap* map, SDL2Wrapper* sdl, LaserProxy* lp);
 	void DrawLaserScan(CMap* map, SDL2Wrapper* sdl, LaserProxy* lp);
 	
-	double GetX();
-	double GetY();
-	double GetYaw();
-	double GetBelif();
+	float GetX();
+	float GetY();
+	float GetYaw();
+	float GetBelif();
 	
 	void IncreaseAge();
 	int Age();
