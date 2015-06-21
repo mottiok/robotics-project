@@ -26,7 +26,7 @@ double random(double dMin, double dMax) {
 
 int main() {
 	
-	srand (time(NULL));
+	/*srand (time(NULL));
 	
 	// ---------------- TESTING START HERE ----------------
 	PlayerClient pc("localhost", 6665);
@@ -58,7 +58,7 @@ int main() {
 	
 	return 0;
 	// ---------------- TESTING END HERE ----------------
-	
+	*/
 	Configuration config;
 	config.LoadConfigFile("parameters.txt");
 	
