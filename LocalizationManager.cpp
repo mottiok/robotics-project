@@ -25,7 +25,7 @@ LocalizationManager::~LocalizationManager() {
 	}
 }
 
-void LocalizationManager::Update(float deltaX, float deltaY, float deltaYaw, LaserProxy* lp) {	
+void LocalizationManager::Update(float deltaX, float deltaY, float deltaYaw, LaserProxy* lp) {		
 	vector<Particle*> childsToAdd;
 	vector<int> childsToRemove;
 	int particlesSize = _particles.size();
@@ -126,6 +126,7 @@ Particle* LocalizationManager::GetBestParticle() {
 	
 	// Incase no particles found we create new one from last known position
 	if (_particles.empty()) {
+		throw 1;
 		CreateParticle(_dX, _dY, _dYaw, 1, EMERGENCY_EXPANSION_RADIUS, EMERGENCY_YAW_RANGE,  PARTICLE_EMERGENCY_BREED);
 		Particle* randomParticle = _particles[rand() % _particles.size()];
 		_dX = randomParticle->GetX();

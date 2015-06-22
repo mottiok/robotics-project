@@ -51,6 +51,13 @@ double Robot::SetPosition(double dX, double dY, double dYaw, bool setOdemetry) {
 
 void Robot::SetOdemetry(double dX, double dY, double dYaw) {
 	_pp->SetOdometry(dX, dY, dYaw);
+	while (((float)dX != (float)_pp->GetXPos()) || ((float)dY != (float)_pp->GetYPos()) || ((float)dYaw != (float)_pp->GetYaw())) {
+//		printf("%lg, %lg, %lg ? %u - %u - %u || %lg, %lg\n", _pp->GetXPos(), _pp->GetYPos(), _pp->GetYaw(),
+//				(dX != _pp->GetXPos()), (dY != _pp->GetYPos()), (dYaw != _pp->GetYaw()),
+//				dX, _pp->GetXPos());
+		_pc->Read();
+		_pp->SetOdometry(dX, dY, dYaw);
+	}
 }
 
 double Robot::GetX() {
@@ -105,6 +112,8 @@ void Robot::UpdateLocalization() {
 	double deltaX = _pp->GetXPos() - _dX;
 	double deltaY = _pp->GetYPos() - _dY;
 	double deltaYaw = _pp->GetYaw() - _dYaw;
+//	printf("%f, %f, %f\n", x, y, yaw);
+//	printf("%f, %f, %f\n", deltaX, deltaY, deltaYaw);
 	
 	/*
 	 * We update the localization manager by the delta position and chose the
