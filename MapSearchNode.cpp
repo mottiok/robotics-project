@@ -46,10 +46,10 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode>* aStarSearch, MapSe
 
     // TODO: Check if 8 directions is better than 4 when doing the Driver
     // Add 4 more directions if needed
-    AddSuccessor(GetXPos() + 1, GetYPos() + 1, parentPosition, aStarSearch);
+//    AddSuccessor(GetXPos() + 1, GetYPos() + 1, parentPosition, aStarSearch);
     AddSuccessor(GetXPos() - 1, GetYPos() - 1, parentPosition, aStarSearch);
-    AddSuccessor(GetXPos() + 1, GetYPos() - 1, parentPosition, aStarSearch);
-    AddSuccessor(GetXPos() - 1, GetYPos() + 1, parentPosition, aStarSearch);
+//    AddSuccessor(GetXPos() + 1, GetYPos() - 1, parentPosition, aStarSearch);
+//    AddSuccessor(GetXPos() - 1, GetYPos() + 1, parentPosition, aStarSearch);
 
     return true;
 }
