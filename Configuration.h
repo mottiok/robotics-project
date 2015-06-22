@@ -37,9 +37,9 @@ using namespace std;
 
 // Waypoint Manager
 #define WAYPOINT_RADIUS 2
-#define DEFAULT_WAYPOINT_RESOLUTION 4
+#define DEFAULT_WAYPOINT_RESOLUTION 6
 #define DEFAULT_WAYPOINT_ACCURACY (0.1F)
-#define DETECT_EVASION_RADIUS 1.0
+#define DETECT_EVASION_RADIUS 0.85
 
 class Configuration {
 	

@@ -126,7 +126,6 @@ Particle* LocalizationManager::GetBestParticle() {
 	
 	// Incase no particles found we create new one from last known position
 	if (_particles.empty()) {
-		throw 1;
 		CreateParticle(_dX, _dY, _dYaw, 1, EMERGENCY_EXPANSION_RADIUS, EMERGENCY_YAW_RANGE,  PARTICLE_EMERGENCY_BREED);
 		Particle* randomParticle = _particles[rand() % _particles.size()];
 		_dX = randomParticle->GetX();
