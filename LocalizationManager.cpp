@@ -41,7 +41,7 @@ void LocalizationManager::Update(float deltaX, float deltaY, float deltaYaw, Las
 		// Depending on the belif value kill or breed the given particle
 		if (belif <= LOW_BELIF_THRESHOLD) {
 			particle->DecreaseLife();
-			if (particle->IsDead()) {
+			if (particle->IsDead() || belif <= 0) {
 				childsToRemove.push_back(i);				
 			}
 		} else if (belif >= HIGH_BELIF_THRESHOLD &&
