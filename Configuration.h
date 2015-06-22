@@ -18,7 +18,7 @@
 using namespace std;
 
 // Main
-#define PLAYER_HOST "10.10.245.64"
+#define PLAYER_HOST "localhost"
 #define PLAYER_PORT 6665
 
 // // Localization Manager & Particles
@@ -27,7 +27,7 @@ using namespace std;
 #define PARTICLE_NORMAL_BREED 5 // particles child breed count for particles with normal belif
 #define PARTICLE_HIGH_BREED 20 // particles child breed count for particles with high belif
 #define MAX_PARTICLES_COUNT 200 // max particles count
-#define EXPANSION_RADIUS 0.35 // expansion radius for each child particle
+#define EXPANSION_RADIUS 0.3 // expansion radius for each child particle
 #define YAW_RANGE 0.2 // yaw range for each child particle
 #define BELIF_MAGIC_NUMBER 2 // belif magic number
 #define PARTICLE_LIFES 5 // particles lifes before deleted from vector
@@ -36,7 +36,7 @@ using namespace std;
 #define PARTICLE_EMERGENCY_BREED MAX_PARTICLES_COUNT - 2 // Particles emergency breed count when no particles exists
 
 // Waypoint Manager
-#define WAYPOINT_RADIUS 2
+#define WAYPOINT_RADIUS 4
 #define DEFAULT_WAYPOINT_RESOLUTION 6
 #define DEFAULT_WAYPOINT_ACCURACY (0.1F)
 #define DETECT_EVASION_RADIUS 0.6
