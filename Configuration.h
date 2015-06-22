@@ -18,18 +18,18 @@
 using namespace std;
 
 // Main
-#define PLAYER_HOST "localhost"
+#define PLAYER_HOST "10.10.245.64"
 #define PLAYER_PORT 6665
 
 // // Localization Manager & Particles
-#define LOW_BELIF_THRESHOLD 0.3 // minimum for low belif particles
-#define HIGH_BELIF_THRESHOLD 0.8 // minimum for high belif particles
-#define PARTICLE_NORMAL_BREED 5 // particles child breed count for particles with normal belif
-#define PARTICLE_HIGH_BREED 20 // particles child breed count for particles with high belif
-#define MAX_PARTICLES_COUNT 400 // max particles count
+#define LOW_BELIF_THRESHOLD 0.2 // minimum for low belif particles
+#define HIGH_BELIF_THRESHOLD 0.7 // minimum for high belif particles
+#define PARTICLE_NORMAL_BREED 0 // particles child breed count for particles with normal belif
+#define PARTICLE_HIGH_BREED 50 // particles child breed count for particles with high belif
+#define MAX_PARTICLES_COUNT 500 // max particles count
 #define EXPANSION_RADIUS 0.3 // expansion radius for each child particle
-#define YAW_RANGE 5 // yaw range for each child particle
-#define BELIF_MAGIC_NUMBER 2 // belif magic number
+#define YAW_RANGE 0.1 // yaw range for each child particle
+#define BELIF_MAGIC_NUMBER 3 // belif magic number
 #define PARTICLE_LIFES 5 // particles lifes before deleted from vector
 #define EMERGENCY_EXPANSION_RADIUS 7 // emergency expansion radius when no particles exists
 #define EMERGENCY_YAW_RANGE M_PI // emergency yaw range when no particles exists
@@ -39,7 +39,7 @@ using namespace std;
 #define WAYPOINT_RADIUS 2
 #define DEFAULT_WAYPOINT_RESOLUTION 4
 #define DEFAULT_WAYPOINT_ACCURACY (0.1F)
-#define DETECT_EVASION_RADIUS 0.75
+#define DETECT_EVASION_RADIUS 1.0
 
 class Configuration {
 	
